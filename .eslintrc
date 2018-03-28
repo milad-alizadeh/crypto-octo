@@ -22,9 +22,9 @@
     }
   },
   "rules": {
-    "semi": [2, "never"],
-    "semi-style": [2, "first"],
-    "comma-dangle": [2, "always-multiline"],
+    "semi": [2, "always"],
+    "semi-style": [2, "last"],
+    "comma-dangle": [2, "never"],
     "max-len": 0,
     "no-shadow": 0,
     "arrow-body-style": 0,
