@@ -4,4 +4,5 @@ dist
 *.log
 node_modules
 coverage
+src-example
 webpack/webpack-assets.json
