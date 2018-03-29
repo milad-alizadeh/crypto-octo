@@ -5,17 +5,17 @@ import styled from 'styled-components';
 const detectSize = (size) => {
   switch (size) {
     case 'large':
-      return '3.6rem';
+      return '4.8rem';
     case 'small':
-      return '1.2rem';
-    default:
       return '2.4rem';
+    default:
+      return '3.6rem';
   }
 };
 
 const Wrapper = styled.div`
   display: block;
-  color: ${({ theme, color }) => color ? theme.colors[color] : theme.colors.greyLighter};
+  color: ${({ theme, color }) => color ? theme.colors[color] : theme.colors.grey};
   width: ${props => detectSize(props.size)};
   height: ${props => detectSize(props.size)};
 

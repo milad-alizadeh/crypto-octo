@@ -6,8 +6,8 @@ storiesOf('Icon', module)
   .add('default', () => (
     <Icon icon="cog" />
   ))
-  .add('fill', () => (
-    <Icon icon="cog" fill="blue" />
+  .add('color', () => (
+    <Icon icon="cog" color="primary" />
   ))
   .add('size - small', () => (
     <Icon icon="cog" size="small" />
