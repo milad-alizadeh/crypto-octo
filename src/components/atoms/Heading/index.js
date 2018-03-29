@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 let HeadingStyled = styled.h1`
-  font-weight: 500;
+  font-weight: 700;
   font-family: ${({ theme }) => theme.fonts.primary};
   font-size: 1.4rem;
   margin: 0;
