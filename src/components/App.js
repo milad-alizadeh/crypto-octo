@@ -6,7 +6,7 @@ import { HomePage } from 'components';
 
 // Styling
 import theme from './themes/default';
-import CssReset from './css-reset';
+import CssReset from './vendor-css-reset';
 
 // CSS Reset
 CssReset();
