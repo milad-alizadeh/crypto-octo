@@ -25,6 +25,8 @@
     "semi": [2, "always"],
     "semi-style": [2, "last"],
     "comma-dangle": [2, "never"],
+    "prefer-const": 0,
+    "import/no-mutable-exports": 0,
     "max-len": 0,
     "no-shadow": 0,
     "arrow-body-style": 0,
