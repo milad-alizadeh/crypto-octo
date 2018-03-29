@@ -12,7 +12,8 @@ theme.colors = {
 };
 
 theme.fonts = {
-  primary: 'Helvetica Neue, Helvetica, Roboto, sans-serif',
+  primary: 'Montserrat, sans-serif',
+  secondary: 'Oswald, sans-serif',
   pre: 'Consolas, Liberation Mono, Menlo, Courier, monospace',
   quote: 'Georgia, serif'
 };
@@ -23,6 +24,12 @@ theme.sizes = {
   large: '1024px',
   medium: '768px',
   small: '540px'
+};
+
+theme.transition = {
+  fast: '.3s',
+  medium: '.6s',
+  slow: '1s'
 };
 
 theme.breakpoints = {
