@@ -7,11 +7,11 @@ let HeadingStyled = styled.h1`
   font-family: ${({ theme }) => theme.fonts.primary};
   font-size: 1.4rem;
   margin: 0;
-  color: ${({ theme, color }) => color ? theme.colors[color] : theme.colors.grey};
+  color: ${({ theme, color }) => color ? theme.colors[color] : theme.colors.greyLight};
 `;
 
 const Heading = (props) => {
-  const level = props.level || 1;
+  let level = props.level || 1;
   HeadingStyled = HeadingStyled.withComponent(`h${level}`);
   return (
     <HeadingStyled {...props}>{props.children}</HeadingStyled>
