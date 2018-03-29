@@ -1,17 +1,15 @@
-import React from 'react'
-import { Switch, Route } from 'react-router-dom'
-import { injectGlobal, ThemeProvider } from 'styled-components'
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 
-import { HomePage } from 'components'
+import { HomePage } from 'components';
 
-// https://github.com/diegohaz/arc/wiki/Styling
-import theme from './themes/default'
+// Styling
+import theme from './themes/default';
+import CssReset from './css-reset';
 
-injectGlobal`
-  body {
-    margin: 0;
-  }
-`
+// CSS Reset
+CssReset();
 
 const App = () => {
   return (
@@ -20,7 +18,7 @@ const App = () => {
         <Route path="/" component={HomePage} exact />
       </Switch>
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;
