@@ -10,6 +10,8 @@ let Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 2rem;
+  cursor: pointer;
 
   ${IconStyled} {
     margin-bottom: 1rem;
@@ -24,7 +26,7 @@ const IconWithLabel = (props) => {
   Wrapper = Wrapper.withComponent(props.tag);
 
   return (
-    <Wrapper>
+    <Wrapper {...props}>
       <IconStyled icon={props.icon} />
       <TextStyled>{props.label}</TextStyled>
     </Wrapper>
