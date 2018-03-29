@@ -1,4 +1,11 @@
-const theme = {};
+let theme = {};
+
+theme.breakpoints = {
+  xlarge: 1200,
+  large: 1024,
+  medium: 768,
+  small: 540
+};
 
 theme.colors = {
   primary: '#04aec6',
@@ -13,9 +20,7 @@ theme.colors = {
 
 theme.fonts = {
   primary: 'Montserrat, sans-serif',
-  secondary: 'Oswald, sans-serif',
-  pre: 'Consolas, Liberation Mono, Menlo, Courier, monospace',
-  quote: 'Georgia, serif'
+  secondary: 'Oswald, sans-serif'
 };
 
 theme.sizes = {
@@ -32,11 +37,8 @@ theme.transition = {
   slow: '1s'
 };
 
-theme.breakpoints = {
-  xlarge: 1200,
-  large: 1024,
-  medium: 768,
-  small: 540
-};
+theme.boxShadow = '0 0 3.2rem 0 rgba(0, 0, 0, 0.2)';
+
+theme.borderRadius = '.5rem';
 
 export default theme;
