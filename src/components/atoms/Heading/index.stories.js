@@ -8,7 +8,7 @@ storiesOf('Heading', module)
     <Heading>Id tempor duis non esse commodo fugiat excepteur nostrud.</Heading>
   ))
   .add('color', () => (
-    <Heading color="blue">Id tempor duis non esse commodo fugiat excepteur nostrud.</Heading>
+    <Heading color="primary">Id tempor duis non esse commodo fugiat excepteur nostrud.</Heading>
   ))
   .add('level 2', () => (
     <Heading level={2}>Id tempor duis non esse commodo fugiat excepteur nostrud.</Heading>
