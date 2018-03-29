@@ -25,6 +25,7 @@ const Wrapper = styled.div`
     display: block;
     fill: currentcolor;
     stroke: currentcolor;
+    transition: all ${props => props.theme.transition.fast};
   }
 `;
 
