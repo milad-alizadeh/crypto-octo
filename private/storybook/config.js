@@ -6,7 +6,7 @@ import { ThemeProvider, injectGlobal } from 'styled-components';
 import configureStore from 'store/configure';
 import api from 'services/api';
 import theme from 'components/themes/default';
-import cssReset from 'components/css-reset';
+import cssReset from 'components/vendor-css-reset';
 
 const store = configureStore({}, { api: api.create() });
 const req = require.context('components', true, /.stories.js$/);
@@ -15,6 +15,7 @@ const req = require.context('components', true, /.stories.js$/);
 cssReset();
 
 injectGlobal`
+  @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700|Oswald:200,500');
   body {
     background: ${theme.colors.greyDarkest};
     padding: 20px;
