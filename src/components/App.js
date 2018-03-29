@@ -6,10 +6,9 @@ import { HomePage } from 'components';
 
 // Styling
 import theme from './themes/default';
-import CssReset from './vendor-css-reset';
+import GlobalCss from './_global-css';
 
-// CSS Reset
-CssReset();
+GlobalCss();
 
 const App = () => {
   return (
