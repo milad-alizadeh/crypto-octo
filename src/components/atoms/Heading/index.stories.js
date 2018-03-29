@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 
 import Heading from '.';
 
-storiesOf('Heading', module)
+storiesOf('Atom - Heading', module)
   .add('default', () => (
     <Heading>Id tempor duis non esse commodo fugiat excepteur nostrud.</Heading>
   ))
