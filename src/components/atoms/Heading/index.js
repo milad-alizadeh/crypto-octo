@@ -1,20 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import breakpoints from 'styled-components-breakpoint';
 
-const fontSize = ({ level }) => `${0.75 + (1 * (1 / level))}rem`;
+const fontSize = ({ level = 1 }) => `${0.75 + (1 * (1 / level))}rem`;
 
 let HeadingTag = styled.h1`
   font-weight: 500;
+  font-family: ${({ theme: fonts }) => fonts.primary};
   font-size: ${fontSize};
   margin: 0;
   margin-top: 0.85714em;
   margin-bottom: 0.57142em;
-  color: ${({ color, theme: { colors } }) => color || colors.greyLighter};
+  color: ${props => props.theme.colors.greyLighter};
+  ${breakpoints('xlarge')`
+    background: blue;
+  `}
 `;
 
 const Heading = (props) => {
-  HeadingTag = HeadingTag.withComponent(`h${props.level}`);
+  const level = props.level || 1;
+  HeadingTag = HeadingTag.withComponent(`h${level}`);
   return (
     <HeadingTag {...props}>{props.children}</HeadingTag>
   );
