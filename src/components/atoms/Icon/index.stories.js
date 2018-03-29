@@ -9,6 +9,9 @@ storiesOf('Icon', module)
   .add('fill', () => (
     <Icon icon="cog" fill="blue" />
   ))
-  .add('size', () => (
+  .add('size - small', () => (
+    <Icon icon="cog" size="small" />
+  ))
+  .add('size - large', () => (
     <Icon icon="cog" size="large" />
   ));
