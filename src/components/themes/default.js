@@ -1,7 +1,14 @@
 const theme = {};
 
 theme.colors = {
-  greyLighter: '#c5c5c5'
+  primary: '#04aec6',
+  secondary: '#ff2d78',
+  greyLight: '#c5c5c5',
+  greyLighter: '#f9f9f9',
+  grey: '#505050',
+  greyDark: '#202226',
+  greyDarker: '#18191c',
+  greyDarkest: '#18191b'
 };
 
 theme.fonts = {
