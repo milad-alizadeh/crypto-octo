@@ -80,6 +80,8 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.20.0",
+    "chart.js": "^2.7.2",
+    "chartjs-plugin-annotation": "^0.5.7",
     "history": "^4.6.1",
     "lodash": "^4.17.4",
     "normalizr": "3.2.4",
