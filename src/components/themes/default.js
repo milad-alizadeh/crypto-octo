@@ -15,7 +15,7 @@ theme.colors = {
   grey: '#505050',
   greyDark: '#202226',
   greyDarker: '#18191c',
-  greyDarkest: '#18191b'
+  greyDarkest: '#161719'
 };
 
 theme.fonts = {
