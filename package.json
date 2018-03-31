@@ -84,6 +84,7 @@
     "chartjs-plugin-annotation": "^0.5.7",
     "history": "^4.6.1",
     "lodash": "^4.17.4",
+    "moment": "^2.22.0",
     "normalizr": "3.2.4",
     "prop-types": "^15.5.8",
     "query-string": "^5.0.0",
