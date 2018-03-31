@@ -17,25 +17,20 @@ const LineChartStyled = styled.div`
   `}
 `;
 
-const HoveredPrice = styled.div`
-  color: white;
-`;
-const HoveredTime = styled.div`
-  color: red;
-`;
-
 class LineChart extends Component {
   static propTypes = {
-    data: PropTypes.array,
-    color: PropTypes.string
+    data: PropTypes.array.isRequired,
+    color: PropTypes.string,
+    timeUnit: PropTypes.string.isRequired,
+    displayFormat: PropTypes.string.isRequired,
+    onTooltipXChange: PropTypes.func,
+    onTooltipYChange: PropTypes.func
   }
 
   constructor(props) {
     super(props);
 
     this.state = {
-      ctx: null,
-      chart: null,
       chartOptions: {}
     };
   }
@@ -45,25 +40,20 @@ class LineChart extends Component {
   }
 
   setChartOptions() {
-    let currentComponent = this;
+    let { onTooltipXChange, onTooltipYChange } = this.props;
+
     chartOptions.tooltips.callbacks = {
-      label(tooltipItem, data) {
-        currentComponent.setState({ hoveredPrice: tooltipItem.yLabel });
+      label(tooltipItem) {
+        if (onTooltipXChange) {
+          onTooltipXChange(tooltipItem.xLabel);
+        }
       },
-      title(tooltipItem, data) {
-        currentComponent.setState({ hoveredTime: data.labels[tooltipItem[0].index] });
+      title(tooltipItem) {
+        if (onTooltipYChange) {
+          onTooltipYChange(tooltipItem[0].yLabel);
+        }
       }
     };
-
-    chartOptions.scales.xAxes.callback = (tick, index, array) => {
-      console.log(arguments, ' -----Axes Callback');
-      return tick;
-    }
-
-    chartOptions.scales.yAxes.callback = (value, index, ticks) => {
-      console.log(arguments, 'yAxes');
-      return value;
-    }
 
     this.setState({
       chartOptions
@@ -85,8 +75,9 @@ class LineChart extends Component {
 
   createHoverLine(chart) {
     let { tooltip } = chart;
-    if (tooltip._active && tooltip._active.length) {
-      let activePoint = tooltip._active[0];
+
+    if (tooltip._active && tooltip._active.length) { // eslint-disable-line no-underscore-dangle
+      let activePoint = tooltip._active[0]; // eslint-disable-line no-underscore-dangle
       let { ctx } = chart;
       let yAxis = chart.scales['y-axis-0'];
       let { x } = activePoint.tooltipPosition();
@@ -105,25 +96,25 @@ class LineChart extends Component {
 
   createChart(ctx) {
     let self = this;
-
     let gradient = this.createGradient(ctx, hexToRGB(this.props.color, '0.75'), hexToRGB(this.props.color, '0'));
     let { gradientFill, canvas } = gradient;
-
     let options = this.state.chartOptions;
 
-    options.scales.xAxes = [{
-      type: 'time',
-      time: {
-        unit: 'day',
-        displayFormats: {
-          day: 'MMM DD hh:mm'
+    if (this.props.timeUnit) {
+      options.scales.xAxes = [{
+        type: 'time',
+        time: {
+          unit: this.props.timeUnit,
+          displayFormats: {
+            [this.props.timeUnit]: this.props.displayFormat
+          }
         }
-      }
-    }];
+      }];
+    }
 
     const chart = new Chart(canvas, {
       type: 'line',
-      options: options,
+      options,
       plugins: [{
         afterDatasetsDraw(chart) {
           self.createHoverLine(chart);
@@ -140,18 +131,24 @@ class LineChart extends Component {
         }]
       }
     });
+
+    this.setState({
+      chart,
+      chartOptions: options
+    });
   }
 
   render() {
-    let { hoveredPrice, hoveredTime } = this.state;
     return (
       <LineChartStyled>
-        <HoveredTime>{hoveredTime}</HoveredTime>
-        <HoveredPrice>{hoveredPrice}</HoveredPrice>
         <canvas ref={(canvas) => { this.canvas = canvas; }} />
       </LineChartStyled>
     );
   }
 }
+
+LineChart.defaultProps = {
+  color: '#ff2d78'
+};
 
 export default LineChart;
