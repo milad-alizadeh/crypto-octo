@@ -1,5 +1,3 @@
-import theme from '../../themes/default';
-
 export default {
   layout: {
     padding: {
@@ -17,7 +15,7 @@ export default {
         mode: 'horizontal',
         scaleID: 'y-axis-0',
         value: '7511.8506',
-        borderColor: theme.colors.grey,
+        borderColor: '#505050',
         borderWidth: 1,
         borderDash: [2, 6]
       }
@@ -54,21 +52,9 @@ export default {
   },
   scaleShowValues: true,
   scales: {
-    xAxes: [
-      {
-        display: false,
-        ticks: {
-          fontFamily: "'Roboto Mono', monospace",
-          fontSize: 12,
-          fontStyle: 'normal',
-          fontColor: theme.colors.grey,
-          maxRotation: 0,
-          minRotation: 0,
-          autoSkip: true,
-          maxTicksLimit: 3
-        }
-      }
-    ],
+    xAxes: {
+      display: false
+    },
     yAxes: [
       {
         position: 'left',
@@ -80,13 +66,13 @@ export default {
           fontSize: 12,
           padding: -10,
           fontStyle: 'normal',
-          fontColor: theme.colors.grey,
+          fontColor: '#505050',
           maxTicksLimit: 5
         },
         gridLines: {
           drawTicks: false,
-          zeroLineColor: theme.colors.greyDark,
-          color: theme.colors.greyDark,
+          zeroLineColor: '#18191c',
+          color: '#18191c',
           drawBorder: false
         }
       }
