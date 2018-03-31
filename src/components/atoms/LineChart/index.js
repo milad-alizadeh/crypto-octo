@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import breakpoint from 'styled-components-breakpoint';
 import Chart from 'chart.js';
 import 'chartjs-plugin-annotation';
+
+import { hexToRGB } from '../../helpers';
 import chartOptions from './chartOptions';
 
 const LineChartStyled = styled.div`
@@ -15,9 +17,16 @@ const LineChartStyled = styled.div`
   `}
 `;
 
+const HoveredPrice = styled.div`
+  color: white;
+`;
+const HoveredTime = styled.div`
+  color: red;
+`;
+
 class LineChart extends Component {
   static propTypes = {
-    data: PropTypes.object,
+    data: PropTypes.array,
     color: PropTypes.string
   }
 
@@ -36,12 +45,13 @@ class LineChart extends Component {
   }
 
   setChartOptions() {
+    let currentComponent = this;
     chartOptions.tooltips.callbacks = {
       label(tooltipItem, data) {
-        console.log(tooltipItem.yLabel, data, ' -----Tooltip Label');
+        currentComponent.setState({ hoveredPrice: tooltipItem.yLabel });
       },
       title(tooltipItem, data) {
-        console.log(data.labels[tooltipItem[0].index], ' -----Tooltip title')
+        currentComponent.setState({ hoveredTime: data.labels[tooltipItem[0].index] });
       }
     };
 
@@ -69,7 +79,7 @@ class LineChart extends Component {
 
     return {
       gradientFill,
-      ctx
+      canvas: ctx
     };
   }
 
@@ -87,7 +97,7 @@ class LineChart extends Component {
       ctx.moveTo(x, topY);
       ctx.lineTo(x, bottomY);
       ctx.lineWidth = 1;
-      ctx.strokeStyle = '#7a42d8';
+      ctx.strokeStyle = this.props.color;
       ctx.stroke();
       ctx.restore();
     }
@@ -96,25 +106,33 @@ class LineChart extends Component {
   createChart(ctx) {
     let self = this;
 
-    let gradient = this.createGradient(ctx, 'rgba(122, 66, 216, 0.75)', 'rgba(122, 66, 216, 0)');
+    let gradient = this.createGradient(ctx, hexToRGB(this.props.color, '0.75'), hexToRGB(this.props.color, '0'));
     let { gradientFill, canvas } = gradient;
+
+    let options = this.state.chartOptions;
+
+    options.scales.xAxes = [{
+      type: 'time',
+      time: {
+        unit: 'day',
+        displayFormats: {
+          day: 'MMM DD hh:mm'
+        }
+      }
+    }];
 
     const chart = new Chart(canvas, {
       type: 'line',
-      options: this.state.chartOptions,
+      options: options,
       plugins: [{
         afterDatasetsDraw(chart) {
           self.createHoverLine(chart);
         }
       }],
       data: {
-        labels: [1522339200, 1522342800, 1522346400, 1522350000, 1522353600, 1522357200, 1522360800, 1522364400, 1522368000, 1522371600, 1522375200, 1522378800, 1522382400, 1522386000, 1522389600, 1522393200, 1522396800, 1522400400, 1522404000, 1522407600, 1522411200, 1522414800, 1522418400, 1522422000, 1522424433],
         datasets: [{
           borderColor: this.props.color,
-          pointBorderColor: 'transparent',
-          pointBackgroundColor: 'transparent',
-          label: 'Your portfolio',
-          data: [7488.2218, 7511.8506, 7456.3352, 7457.3656, 7363.8304, 7129.6176, 7093.7704, 7192.1044, 7107.1376, 6841.3188, 6900.963, 6851.8798, 6876.6782, 6722.0364, 7134.8436, 7052.8856, 7217.5612, 7105.4744, 7042.2552, 6901.6982, 7030.928, 7040.5664, 6895.245, 6872.771, 6807.2916, 6746.9166],
+          data: this.props.data,
           borderWidth: 1.5,
           fill: true,
           backgroundColor: gradientFill,
@@ -125,8 +143,11 @@ class LineChart extends Component {
   }
 
   render() {
+    let { hoveredPrice, hoveredTime } = this.state;
     return (
       <LineChartStyled>
+        <HoveredTime>{hoveredTime}</HoveredTime>
+        <HoveredPrice>{hoveredPrice}</HoveredPrice>
         <canvas ref={(canvas) => { this.canvas = canvas; }} />
       </LineChartStyled>
     );
