@@ -40,10 +40,10 @@ class LineChart extends Component {
 
   componentDidMount() {
     let canvas = this.canvas.getContext('2d');
-    let { color, chartData } = this.props;
     let gradient = this.createGradient(canvas, hexToRGB(this.props.color, '0.75'), hexToRGB(this.props.color, '0'));
-    let { gradientFill, ctx } = gradient;
-    this.createChart(ctx, this.getChartOptions(this.props), chartData.data, color, gradientFill);
+    let { color, chartData } = this.props;
+
+    this.createChart(gradient.ctx, this.getChartOptions(this.props), chartData.data, color, gradient.gradientFill);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -51,12 +51,15 @@ class LineChart extends Component {
   }
 
   /**
-   * Get Chart Options
+   * Get Chart options based on the passed props
+   * @param  {Obj} props props
+   * @return {Obj} chart options
    */
   getChartOptions(props) {
     let { onTooltipXChange, onTooltipYChange } = props;
     let { timeUnit, displayFormat, data } = props.chartData;
 
+    // Tooltip callbacks - used to broadcast tooltip data to another component
     chartOptions.tooltips.callbacks = {
       label(tooltipItem) {
         if (onTooltipXChange) {
@@ -119,6 +122,7 @@ class LineChart extends Component {
    */
   updateChart(nextProps) {
     let { chart } = this.state;
+
     if (nextProps.chartData !== this.props.chartData) {
       // Update Dataset
       chart.config.data.datasets[0].data = nextProps.chartData.data;
@@ -151,7 +155,7 @@ class LineChart extends Component {
    * Create a vertical line on chart hover
    * @param  {Object} chart chart instance
    */
-  createHoverLine(chart) {
+  createHoverLine(chart, color) {
     let { tooltip } = chart;
 
     if (tooltip._active && tooltip._active.length) { // eslint-disable-line no-underscore-dangle
@@ -166,7 +170,7 @@ class LineChart extends Component {
       ctx.moveTo(x, topY);
       ctx.lineTo(x, bottomY);
       ctx.lineWidth = 1;
-      ctx.strokeStyle = this.props.color;
+      ctx.strokeStyle = color;
       ctx.stroke();
       ctx.restore();
     }
@@ -177,14 +181,14 @@ class LineChart extends Component {
    * @param  {DOMNode} ctx dom canvas node
    */
   createChart(ctx, options, data, color, gradientFill) {
-    let self = this;
+    let { createHoverLine } = this;
 
     let chart = new Chart(ctx, {
       type: 'line',
       options,
       plugins: [{
         afterDatasetsDraw(chart) {
-          self.createHoverLine(chart);
+          createHoverLine(chart, color);
         }
       }],
       data: {
