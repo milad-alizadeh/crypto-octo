@@ -7,20 +7,7 @@ export default {
       bottom: 0
     }
   },
-  annotation: {
-    annotations: [
-      {
-        drawTime: 'beforeDatasetsDraw',
-        type: 'line',
-        mode: 'horizontal',
-        scaleID: 'y-axis-0',
-        value: '7511.8506',
-        borderColor: '#505050',
-        borderWidth: 1,
-        borderDash: [2, 6]
-      }
-    ]
-  },
+
   animationEasing: 'linear',
   animationSteps: 60,
   responsive: true,
