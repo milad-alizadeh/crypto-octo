@@ -5,3 +5,7 @@ export function hexToRGB(hex, alpha) {
 
   return alpha ? `rgba(${r}, ${g}, ${b}, ${alpha})` : `rgb(${r}, ${g}, ${b})`;
 }
+
+export function ifColor(value, defaultValue, theme) {
+  return value ? theme.colors[value] : theme.colors[defaultValue];
+}
