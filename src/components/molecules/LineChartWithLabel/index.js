@@ -16,10 +16,12 @@ const HoveredTime = styled.div`
 
 class LineChartWithLabel extends Component {
   static propTypes = {
-    data: PropTypes.array,
-    color: PropTypes.string,
-    timeUnit: PropTypes.string.isRequied,
-    displayFormat: PropTypes.string.isRequired
+    chartData: PropTypes.shape({
+      data: PropTypes.array.isRequired,
+      timeUnit: PropTypes.string.isRequired,
+      displayFormat: PropTypes.string.isRequired
+    }),
+    color: PropTypes.string
   }
 
   constructor(props) {
@@ -43,9 +45,7 @@ class LineChartWithLabel extends Component {
   }
 
   render() {
-    let {
-      data, color, timeUnit, displayFormat
-    } = this.props;
+    let { chartData, color } = this.props;
 
     let { activePrice, activeTime } = this.state;
 
@@ -54,10 +54,8 @@ class LineChartWithLabel extends Component {
         <HoveredTime>{activeTime}</HoveredTime>
         <HoveredPrice>{activePrice}</HoveredPrice>
         <LineChart
-          data={data}
+          chartData={chartData}
           color={color}
-          displayFormat={displayFormat}
-          timeUnit={timeUnit}
           onTooltipXChange={this.setTimeBound}
           onTooltipYChange={this.setPriceBound}
         />

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import breakpoint from 'styled-components-breakpoint';
 import Chart from 'chart.js';
+import _ from 'lodash';
 import 'chartjs-plugin-annotation';
 
 import { hexToRGB } from '../../helpers';
@@ -19,10 +20,12 @@ const LineChartStyled = styled.div`
 
 class LineChart extends Component {
   static propTypes = {
-    data: PropTypes.array.isRequired,
+    chartData: PropTypes.shape({
+      data: PropTypes.array.isRequired,
+      timeUnit: PropTypes.string.isRequired,
+      displayFormat: PropTypes.string.isRequired
+    }),
     color: PropTypes.string,
-    timeUnit: PropTypes.string.isRequired,
-    displayFormat: PropTypes.string.isRequired,
     onTooltipXChange: PropTypes.func,
     onTooltipYChange: PropTypes.func
   }
@@ -31,16 +34,28 @@ class LineChart extends Component {
     super(props);
 
     this.state = {
-      chartOptions: {}
+      chart: null
     };
   }
 
   componentDidMount() {
-    this.setChartOptions();
+    let canvas = this.canvas.getContext('2d');
+    let { color, chartData } = this.props;
+    let gradient = this.createGradient(canvas, hexToRGB(this.props.color, '0.75'), hexToRGB(this.props.color, '0'));
+    let { gradientFill, ctx } = gradient;
+    this.createChart(ctx, this.getChartOptions(this.props), chartData.data, color, gradientFill);
   }
 
-  setChartOptions() {
-    let { onTooltipXChange, onTooltipYChange } = this.props;
+  componentWillReceiveProps(nextProps) {
+    this.updateChart(nextProps);
+  }
+
+  /**
+   * Get Chart Options
+   */
+  getChartOptions(props) {
+    let { onTooltipXChange, onTooltipYChange } = props;
+    let { timeUnit, displayFormat, data } = props.chartData;
 
     chartOptions.tooltips.callbacks = {
       label(tooltipItem) {
@@ -55,13 +70,72 @@ class LineChart extends Component {
       }
     };
 
-    this.setState({
-      chartOptions
-    }, () => {
-      this.createChart(this.canvas.getContext('2d'));
-    });
+    // Apply time units and display format
+    chartOptions.scales.xAxes = [{
+      type: 'time',
+      time: {
+        unit: timeUnit,
+        displayFormats: {
+          [timeUnit]: displayFormat
+        }
+      }
+    }];
+
+    // Create annotation line
+    chartOptions.annotation = {
+      annotations: [
+        {
+          drawTime: 'beforeDatasetsDraw',
+          type: 'line',
+          mode: 'horizontal',
+          scaleID: 'y-axis-0',
+          value: this.getHighestValue(data),
+          borderColor: '#505050',
+          borderWidth: 1,
+          borderDash: [2, 6]
+        }
+      ]
+    };
+
+    return chartOptions;
   }
 
+  /**
+   * Ge the highest value a of a key in an array data objects
+   * @param  {Array} data
+   * @return {Number} Max value
+   */
+  getHighestValue(data) {
+    if (!data && !_.has(data, 'y')) {
+      throw new Error('Please provide correct data');
+    }
+
+    return _.maxBy(data, 'y').y;
+  }
+
+  /**
+   * Update Chart Data
+   * @param  {Object} nextProps next props
+   */
+  updateChart(nextProps) {
+    let { chart } = this.state;
+    if (nextProps.chartData !== this.props.chartData) {
+      // Update Dataset
+      chart.config.data.datasets[0].data = nextProps.chartData.data;
+
+      // Update Annotation
+      chart.options = this.getChartOptions(nextProps);
+      chart.update();
+    }
+  }
+
+  /**
+   * Create a gradient fill on a node canvas
+   * @param  {DOMNode} ctx   dom node canvas
+   * @param  {String} color1 start color
+   * @param  {String} color2 end color
+   * @return {Object} gradientFill and canvas
+   */
   createGradient(ctx, color1, color2) {
     let gradientFill = ctx.createLinearGradient(0, 0, 0, ctx.canvas.parentNode.offsetHeight);
     gradientFill.addColorStop(0, color1);
@@ -69,10 +143,14 @@ class LineChart extends Component {
 
     return {
       gradientFill,
-      canvas: ctx
+      ctx
     };
   }
 
+  /**
+   * Create a vertical line on chart hover
+   * @param  {Object} chart chart instance
+   */
   createHoverLine(chart) {
     let { tooltip } = chart;
 
@@ -94,25 +172,14 @@ class LineChart extends Component {
     }
   }
 
-  createChart(ctx) {
+  /**
+   * Create a line chart
+   * @param  {DOMNode} ctx dom canvas node
+   */
+  createChart(ctx, options, data, color, gradientFill) {
     let self = this;
-    let gradient = this.createGradient(ctx, hexToRGB(this.props.color, '0.75'), hexToRGB(this.props.color, '0'));
-    let { gradientFill, canvas } = gradient;
-    let options = this.state.chartOptions;
 
-    if (this.props.timeUnit) {
-      options.scales.xAxes = [{
-        type: 'time',
-        time: {
-          unit: this.props.timeUnit,
-          displayFormats: {
-            [this.props.timeUnit]: this.props.displayFormat
-          }
-        }
-      }];
-    }
-
-    const chart = new Chart(canvas, {
+    let chart = new Chart(ctx, {
       type: 'line',
       options,
       plugins: [{
@@ -122,8 +189,8 @@ class LineChart extends Component {
       }],
       data: {
         datasets: [{
-          borderColor: this.props.color,
-          data: this.props.data,
+          borderColor: color,
+          data,
           borderWidth: 1.5,
           fill: true,
           backgroundColor: gradientFill,
@@ -133,8 +200,7 @@ class LineChart extends Component {
     });
 
     this.setState({
-      chart,
-      chartOptions: options
+      chart
     });
   }
 

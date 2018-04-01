@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import moment from 'moment';
-import LineChart from '.';
+import LineChartWithLabel from '.';
 
 let chartData = {
   data: [
@@ -156,9 +156,9 @@ let chartData = {
   ]
 };
 
-storiesOf('Atom - LineChart', module)
+storiesOf('Molecule - LineChartWithLabel', module)
   .add('default', () => (
-    <LineChart
+    <LineChartWithLabel
       chartData={{
         ...chartData,
         timeUnit: 'hour',
@@ -167,7 +167,7 @@ storiesOf('Atom - LineChart', module)
     />
   ))
   .add('different color', () => (
-    <LineChart
+    <LineChartWithLabel
       color="#04aec6"
       chartData={{
         ...chartData,
@@ -177,7 +177,7 @@ storiesOf('Atom - LineChart', module)
     />
   ))
   .add('different time unit and format', () => (
-    <LineChart
+    <LineChartWithLabel
       color="#04aec6"
       chartData={{
         ...chartData,
