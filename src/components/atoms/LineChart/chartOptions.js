@@ -1,13 +1,14 @@
+import theme from '../../themes/default';
+
 export default {
   layout: {
     padding: {
-      left: 0,
+      left: 50,
       right: 0,
       top: 0,
       bottom: 0
     }
   },
-
   animationEasing: 'linear',
   animationSteps: 60,
   responsive: true,
@@ -39,9 +40,25 @@ export default {
   },
   scaleShowValues: true,
   scales: {
-    xAxes: {
-      display: false
-    },
+    xAxes: [
+      {
+        ticks: {
+          source: 'auto',
+          autoSkip: true,
+          autoSkipPadding: 10,
+          fontFamily: theme.fonts.primary,
+          fontSize: 12,
+          padding: 10,
+          fontColor: '#505050'
+        },
+        gridLines: {
+          drawTicks: true,
+          zeroLineColor: '#18191c',
+          color: '#18191c',
+          drawBorder: false
+        }
+      }
+    ],
     yAxes: [
       {
         position: 'left',
@@ -49,10 +66,9 @@ export default {
         ticks: {
           autoSkip: true,
           mirror: true,
-          fontFamily: "'Roboto Mono', monospace",
+          fontFamily: theme.fonts.primary,
           fontSize: 12,
-          padding: -10,
-          fontStyle: 'normal',
+          padding: 50,
           fontColor: '#505050',
           maxTicksLimit: 5
         },
