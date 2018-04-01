@@ -10,8 +10,8 @@ import { hexToRGB } from '../../helpers';
 import chartOptions from './chartOptions';
 
 const LineChartStyled = styled.div`
-  height: 30rem;
-  max-width: 110rem;
+  height: 28rem;
+  position: relative;
 
   ${breakpoint('medium')`
     height: 50rem;
@@ -39,11 +39,10 @@ class LineChart extends Component {
   }
 
   componentDidMount() {
-    let canvas = this.canvas.getContext('2d');
-    let gradient = this.createGradient(canvas, hexToRGB(this.props.color, '0.75'), hexToRGB(this.props.color, '0'));
+    let ctx = this.canvas.getContext('2d');
     let { color, chartData } = this.props;
 
-    this.createChart(gradient.ctx, this.getChartOptions(this.props), chartData.data, color, gradient.gradientFill);
+    this.createChart(ctx, this.getChartOptions(this.props), chartData.data, color);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -74,7 +73,8 @@ class LineChart extends Component {
     };
 
     // Apply time units and display format
-    chartOptions.scales.xAxes = [{
+    chartOptions.scales.xAxes[0] = {
+      ...chartOptions.scales.xAxes[0],
       type: 'time',
       time: {
         unit: timeUnit,
@@ -82,7 +82,7 @@ class LineChart extends Component {
           [timeUnit]: displayFormat
         }
       }
-    }];
+    };
 
     // Create annotation line
     chartOptions.annotation = {
@@ -134,24 +134,6 @@ class LineChart extends Component {
   }
 
   /**
-   * Create a gradient fill on a node canvas
-   * @param  {DOMNode} ctx   dom node canvas
-   * @param  {String} color1 start color
-   * @param  {String} color2 end color
-   * @return {Object} gradientFill and canvas
-   */
-  createGradient(ctx, color1, color2) {
-    let gradientFill = ctx.createLinearGradient(0, 0, 0, ctx.canvas.parentNode.offsetHeight);
-    gradientFill.addColorStop(0, color1);
-    gradientFill.addColorStop(1, color2);
-
-    return {
-      gradientFill,
-      ctx
-    };
-  }
-
-  /**
    * Create a vertical line on chart hover
    * @param  {Object} chart chart instance
    */
@@ -180,13 +162,19 @@ class LineChart extends Component {
    * Create a line chart
    * @param  {DOMNode} ctx dom canvas node
    */
-  createChart(ctx, options, data, color, gradientFill) {
+  createChart(ctx, options, data, color) {
     let { createHoverLine } = this;
 
     let chart = new Chart(ctx, {
       type: 'line',
       options,
       plugins: [{
+        afterLayout(chart) {
+          let gradientFill = chart.ctx.createLinearGradient(0, 0, 0, chart.ctx.canvas.offsetHeight);
+          gradientFill.addColorStop(0, hexToRGB(color, '0.75'));
+          gradientFill.addColorStop(1, hexToRGB(color, '0'));
+          chart.data.datasets[0].backgroundColor = gradientFill; // eslint-disable-line no-param-reassign
+        },
         afterDatasetsDraw(chart) {
           createHoverLine(chart, color);
         }
@@ -197,8 +185,7 @@ class LineChart extends Component {
           data,
           borderWidth: 1.5,
           fill: true,
-          backgroundColor: gradientFill,
-          pointHitRadius: 10
+          pointHitRadius: 0
         }]
       }
     });
