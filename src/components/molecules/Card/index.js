@@ -4,27 +4,30 @@ import styled from 'styled-components';
 import { Heading } from 'components';
 
 const CardStyled = styled.article`
+  max-width: 700px;
+  margin: auto;
   padding: 2rem;
   background-color: ${({ theme }) => theme.colors.greyDarkest};
   background: ${({ theme }) => `linear-gradient(0deg, ${theme.colors.greyDarker} 0%, ${theme.colors.greyDark} 100%);`};
   border-radius: ${({ theme }) => theme.borderRadius};
   box-shadow: ${({ theme }) => theme.boxShadow};
   color: ${({ theme }) => theme.colors.greyLight};
-  min-height: 40rem;
 `;
 
-const CardHeader = styled.header``;
+const CardHeader = styled.header`
+  margin-bottom: 1rem;
+`;
 const CardContent = styled.div``;
 
 const Card = (props) => {
-  let { title, children } = props;
+  let { heading, children } = props;
 
   return (
     <CardStyled {...props}>
       {
-        title &&
+        heading &&
         <CardHeader>
-          <Heading level={3}>{title}</Heading>
+          <Heading level={3}>{heading}</Heading>
         </CardHeader>
       }
       {
@@ -36,7 +39,7 @@ const Card = (props) => {
 };
 
 Card.propTypes = {
-  title: PropTypes.string,
+  heading: PropTypes.string,
   children: PropTypes.node
 };
 

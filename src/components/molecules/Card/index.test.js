@@ -11,12 +11,12 @@ describe('Molecule - Card', () => {
     expect(wrapper.contains('Test Child')).toBeTruthy();
   });
 
-  it('renders title', () => {
-    let wrapper = wrap({ title: 'Test Title' });
-    expect(wrapper.contains('Test Title')).toBeTruthy();
+  it('renders heading', () => {
+    let wrapper = wrap({ heading: 'Test Heading' });
+    expect(wrapper.contains('Test Heading')).toBeTruthy();
   });
 
-  it('doesn\'t render header if title is not provided', () => {
+  it('doesn\'t render header if heading is not provided', () => {
     let wrapper = wrap();
     expect(wrapper.find('header')).toHaveLength(0);
   });
