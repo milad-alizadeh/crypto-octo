@@ -1,8 +1,8 @@
 import { takeLatest, fork, call, put } from 'redux-saga/effects';
 import axios from 'axios';
-import moment from 'moment';
 
 import * as actions from './actions';
+import { transformData } from './processData';
 
 function fetchChartData(params) {
   let baseUrl = 'https://min-api.cryptocompare.com/data/histo';
@@ -10,20 +10,11 @@ function fetchChartData(params) {
   return axios.get(url);
 }
 
-function transformData(data) {
-  return data.map((item) => {
-    let averagePrice = (item.high + item.low) / 2;
-    return {
-      x: moment.unix(item.time),
-      y: averagePrice
-    };
-  });
-}
-
-function* readChartData({ payload }) {
+function* readChartData({ payload: { params } }) {
   try {
-    let response = yield call(fetchChartData, payload.params);
-    let data = transformData(response.data.Data);
+    let response = yield call(fetchChartData, params.apiParams);
+
+    let data = transformData(response.data.Data, params.apiParams);
 
     yield put(actions.chartDataReadSuccess(data));
   } catch (error) {
