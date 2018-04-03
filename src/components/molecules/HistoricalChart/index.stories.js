@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import moment from 'moment';
-import LineChartWithLabel from '.';
+import HistoricalChart from '.';
 
 let data = [
   {
@@ -154,7 +154,7 @@ let data = [
   }
 ];
 
-let chartTypes = [
+let controls = [
   {
     label: '24h',
     timeUnit: 'hour',
@@ -172,29 +172,31 @@ let chartTypes = [
   }
 ];
 
-storiesOf('Molecule - LineChartWithLabel', module)
+storiesOf('Molecule - HistoricalChart', module)
   .add('default', () => (
-    <LineChartWithLabel
+    <HistoricalChart
       data={data}
+      controls={controls}
     />
   ))
   .add('different color', () => (
-    <LineChartWithLabel
+    <HistoricalChart
       color="#04aec6"
       data={data}
-      chartTypes={chartTypes}
+      controls={controls}
     />
   ))
   .add('different color with different types', () => (
-    <LineChartWithLabel
+    <HistoricalChart
       color="#04aec6"
       data={data}
-      chartTypes={chartTypes}
+      controls={controls}
     />
   ))
   .add('different time unit and format', () => (
-    <LineChartWithLabel
+    <HistoricalChart
       color="#04aec6"
       data={data}
+      controls={controls}
     />
   ));

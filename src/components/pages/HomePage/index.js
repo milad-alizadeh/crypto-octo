@@ -1,10 +1,11 @@
 // https://github.com/diegohaz/arc/wiki/Atomic-Design
-import React from 'react'
+import React from 'react';
+import { HistoricalChart } from 'containers';
 
 const HomePage = () => {
   return (
-    <div>Hello World</div>
-  )
-}
+    <HistoricalChart />
+  );
+};
 
-export default HomePage
+export default HomePage;
