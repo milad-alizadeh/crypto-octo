@@ -11,21 +11,33 @@ const initialState = {
   controls: [
     {
       label: '24h',
-      timeUnit: 'hour',
-      displayFormat: 'ha',
-      limit: '24'
+      timeUnit: 'minute',
+      displayFormat: 'h:mm a',
+      apiParams: {
+        timeUnit: 'minute',
+        limit: 1440,
+        every: 5
+      }
     },
     {
       label: '3d',
-      timeUnit: 'day',
+      timeUnit: 'hour',
       displayFormat: 'dddd - hh:mm',
-      limit: '72'
+      apiParams: {
+        timeUnit: 'minute',
+        limit: 4320,
+        every: 10
+      }
     },
     {
       label: 'Week',
-      timeUnit: 'day',
-      displayFormat: 'dddd',
-      limit: '168'
+      timeUnit: 'hour',
+      displayFormat: 'MM DD - hh:mm',
+      apiParams: {
+        timeUnit: 'minute',
+        limit: 10080,
+        every: 15
+      }
     }
   ]
 };
