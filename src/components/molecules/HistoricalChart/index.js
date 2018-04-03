@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+
 import { LineChart, Button } from 'components';
 import theme from '../../themes/default';
 
@@ -45,7 +47,7 @@ class HistoricalChart extends Component {
     data: PropTypes.array,
     loading: PropTypes.bool,
     error: PropTypes.object,
-    getData: PropTypes.func,
+    onControlClick: PropTypes.func,
     color: PropTypes.string,
     controls: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -56,11 +58,12 @@ class HistoricalChart extends Component {
 
   constructor(props) {
     super(props);
-    this.createChartData = this.createChartData.bind(this);
 
     this.state = {
-      activeTime: null,
-      activePrice: null,
+      activeTime: '',
+      activePrice: '',
+      activeControl: null,
+      displayChart: false,
       currentChartData: {}
     };
 
@@ -69,51 +72,69 @@ class HistoricalChart extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // Combine data and active control options for the chart
     if (nextProps.data) {
       this.setState({
         currentChartData: {
           data: nextProps.data,
-          ...nextProps.controls[0]
-        }
+          ...this.state.activeControl
+        },
+        displayChart: true
+      });
+
+      // Set the latest time and price
+      this.setTime(nextProps.data[nextProps.data.length - 1].x);
+      this.setPrice(nextProps.data[nextProps.data.length - 1].y);
+    }
+
+    // Select the first control if active control is not set
+    if (!this.state.activeControl) {
+      this.setState({
+        activeControl: nextProps.controls[0]
       });
     }
   }
 
+  onControlClick(activeControl) {
+    this.setState({
+      activeControl,
+      displayChart: false
+    });
+    this.props.onControlClick(activeControl);
+  }
+
   setTime(activeTime) {
-    this.setState({ activeTime });
+    this.setState({ activeTime: moment(activeTime).format('MMMM Do YYYY, h:mm:ss a') });
   }
 
   setPrice(activePrice) {
-    this.setState({ activePrice });
+    let formattedActivePrice = this.formatCurrency(activePrice, '$', 'en-US');
+    this.setState({ activePrice: formattedActivePrice });
   }
 
-  createChartData(controls) {
-    // Call getData props
-    if (this.props.getData) {
-      this.props.getData(controls);
-    }
-
-    this.setState({
-      currentChartData: {
-        data: this.props.data,
-        ...controls[0]
-      }
-    });
+  /**
+   * Format a number to a currency
+   * @param  {Number} number
+   * @param  {String} currency
+   * @return {String} formated number
+   */
+  formatCurrency(number, currency, locale) {
+    return currency + number.toLocaleString(locale);
   }
 
   renderControls() {
-    let { currentChartData } = this.state;
+    let { activeControl } = this.state;
     let { controls } = this.props;
 
-    return controls.map((el) => {
+    return controls.map((control) => {
       return (
         <ButtonStyled
-          key={el.label}
+          key={control.label}
           size="small"
-          onClick={() => this.createChartData(el)}
-          active={currentChartData && currentChartData.label === el.label}
+          onClick={() => this.onControlClick(control)}
+          active={activeControl === control}
         >
-          {el.label}
+          {control.label}
         </ButtonStyled>
       );
     });
@@ -121,32 +142,33 @@ class HistoricalChart extends Component {
 
   render() {
     let { loading, error } = this.props;
-    let { activePrice, activeTime, currentChartData } = this.state;
+    let { activePrice, activeTime, currentChartData, displayChart } = this.state;
+
+    if (loading) {
+      return (<div style={{ color: 'white' }}>Loading ...</div>);
+    } else if (error) {
+      return (<div style={{ color: 'white' }}>Oops! something went wrong. Please refresh your page</div>);
+    }
 
     return (
       <HistoricalChartStyled>
-        {loading && <div style={{ color: 'white' }}>Loading ...</div>}
+        <Header>
+          <Value>
+            <HoveredTime>{activeTime}</HoveredTime>
+            <HoveredPrice>{activePrice}</HoveredPrice>
+          </Value>
+          <Contorls>
+            ${this.renderControls()}
+          </Contorls>
+        </Header>
 
-        {error && <div style={{ color: 'white' }}>Oops! something went wrong. Please refresh your page</div>}
-
-        {currentChartData.data &&
-          <div>
-            <Header>
-              <Value>
-                <HoveredTime>{activeTime}</HoveredTime>
-                <HoveredPrice>{activePrice}</HoveredPrice>
-              </Value>
-              <Contorls>
-                ${this.renderControls()}
-              </Contorls>
-            </Header>
-            <LineChart
-              chartData={currentChartData}
-              color={theme.colors.primary}
-              onTooltipXChange={this.setTime}
-              onTooltipYChange={this.setPrice}
-            />
-          </div>
+        {displayChart &&
+          <LineChart
+            chartData={currentChartData}
+            color={theme.colors.primary}
+            onTooltipXChange={this.setTime}
+            onTooltipYChange={this.setPrice}
+          />
         }
       </HistoricalChartStyled>
     );
