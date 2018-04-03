@@ -29,7 +29,8 @@ class HistoricalChartContainer extends Component {
           loading,
           error,
           data,
-          controls
+          controls,
+          onControlClick: params => this.props.fetchChartData(params)
         }
       }
       />
