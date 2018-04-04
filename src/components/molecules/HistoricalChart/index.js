@@ -1,17 +1,53 @@
-import styled from 'styled-components';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import styled from 'styled-components';
+import breakpoint from 'styled-components-breakpoint';
 
-import { LineChart, Button } from 'components';
+import { LineChart, Button, Spinner, Fade } from 'components';
 import theme from '../../themes/default';
 
 const HistoricalChartStyled = styled.div``;
 
 const Header = styled.div`
+  align-items: center;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 1rem;
   width: 100%;
-  justify-content: space-between;
+
+  ${breakpoint('small')`
+    flex-direction: row;
+    justify-content: space-between;
+  `}
+`;
+
+const LoadingContainer = styled.div`
+  z-index: 2;
+`;
+
+const LineChartStyled = styled(LineChart)``;
+
+const Content = styled.div`
+  padding-top: 2rem;
+  height: 28rem;
+  position: relative;
+
+  ${LineChartStyled}, ${LoadingContainer} {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  ${breakpoint('medium')`
+    height: 50rem;
+  `}
 `;
 
 const Contorls = styled.ul`
@@ -30,7 +66,13 @@ const ButtonStyled = styled(Button)`
 const Value = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+
+  ${breakpoint('small')`
+    align-items: flex-start;
+  `}
 `;
+
 
 const HoveredPrice = styled.div`
   color: ${({ theme }) => theme.colors.primary};
@@ -44,7 +86,7 @@ const HoveredTime = styled.div`
 
 class HistoricalChart extends Component {
   static propTypes = {
-    data: PropTypes.array,
+    chartData: PropTypes.array,
     loading: PropTypes.bool,
     error: PropTypes.object,
     onControlClick: PropTypes.func,
@@ -63,7 +105,6 @@ class HistoricalChart extends Component {
       activeTime: '',
       activePrice: '',
       activeControl: null,
-      displayChart: false,
       currentChartData: {}
     };
 
@@ -71,34 +112,32 @@ class HistoricalChart extends Component {
     this.setPrice = this.setPrice.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps({ chartData, controls }) {
     // Combine data and active control options for the chart
-    if (nextProps.data) {
+    if (chartData && chartData.length) {
       this.setState({
         currentChartData: {
-          data: nextProps.data,
+          data: chartData,
           ...this.state.activeControl
-        },
-        displayChart: true
+        }
       });
 
       // Set the latest time and price
-      this.setTime(nextProps.data[nextProps.data.length - 1].x);
-      this.setPrice(nextProps.data[nextProps.data.length - 1].y);
+      this.setTime(chartData[chartData.length - 1].x);
+      this.setPrice(chartData[chartData.length - 1].y);
     }
 
     // Select the first control if active control is not set
     if (!this.state.activeControl) {
       this.setState({
-        activeControl: nextProps.controls[0]
+        activeControl: controls[0]
       });
     }
   }
 
   onControlClick(activeControl) {
     this.setState({
-      activeControl,
-      displayChart: false
+      activeControl
     });
     this.props.onControlClick(activeControl);
   }
@@ -142,34 +181,40 @@ class HistoricalChart extends Component {
 
   render() {
     let { loading, error } = this.props;
-    let { activePrice, activeTime, currentChartData, displayChart } = this.state;
+    let { activePrice, activeTime, currentChartData } = this.state;
+    let chart;
 
-    if (loading) {
-      return (<div style={{ color: 'white' }}>Loading ...</div>);
-    } else if (error) {
-      return (<div style={{ color: 'white' }}>Oops! something went wrong. Please refresh your page</div>);
+    if (error) {
+      chart = (<div style={{ color: 'white' }}>Oops! something went wrong. Please refresh your page</div>);
     }
 
     return (
-      <HistoricalChartStyled>
+      <HistoricalChartStyled {...this.props} >
         <Header>
           <Value>
             <HoveredTime>{activeTime}</HoveredTime>
             <HoveredPrice>{activePrice}</HoveredPrice>
           </Value>
           <Contorls>
-            ${this.renderControls()}
+            {this.renderControls()}
           </Contorls>
         </Header>
+        <Content>
+          { loading &&
+            <LoadingContainer>
+              <Spinner />
+            </LoadingContainer>
+          }
 
-        {displayChart &&
-          <LineChart
-            chartData={currentChartData}
-            color={theme.colors.primary}
-            onTooltipXChange={this.setTime}
-            onTooltipYChange={this.setPrice}
-          />
-        }
+          { !loading && currentChartData.data &&
+            <LineChartStyled
+              chartData={currentChartData}
+              color={theme.colors.primary}
+              onTooltipXChange={this.setTime}
+              onTooltipYChange={this.setPrice}
+            />
+          }
+        </Content>
       </HistoricalChartStyled>
     );
   }
