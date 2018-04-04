@@ -10,6 +10,9 @@ theme.breakpoints = {
 theme.colors = {
   primary: '#04aec6',
   secondary: '#ff2d78',
+  disabled: '#e74c3c',
+  warning: '#f39c12',
+  success: '#1abc9c',
   white: '#ffffff',
   black: '#000000',
   greyLight: '#c5c5c5',

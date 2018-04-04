@@ -166,7 +166,7 @@ let controls = [
     displayFormat: 'dddd - hh:mm'
   },
   {
-    label: 'Week',
+    label: '1w',
     timeUnit: 'day',
     displayFormat: 'dddd'
   }

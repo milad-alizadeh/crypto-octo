@@ -1,98 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import styled from 'styled-components';
-import breakpoint from 'styled-components-breakpoint';
+import { Spinner, Fade, Heading } from 'components';
+import {
+  HistoricalChartStyled,
+  Header,
+  LoadingContainer,
+  Content,
+  Contorls,
+  ControlsWrapper,
+  ButtonStyled,
+  Value,
+  HoveredTime,
+  HoveredPrice,
+  LineChartStyled
+} from './styles';
 
-import { LineChart, Button, Spinner, Fade, Heading, Text } from 'components';
 import theme from '../../themes/default';
-
-const HistoricalChartStyled = styled.div``;
-
-const Header = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-bottom: 1rem;
-  width: 100%;
-
-  ${breakpoint('small')`
-    flex-direction: row;
-    justify-content: space-between;
-  `}
-`;
-
-const LoadingContainer = styled.div`
-  z-index: 2;
-`;
-
-const LineChartStyled = styled(LineChart)``;
-
-const Content = styled.div`
-  padding-top: 2rem;
-  height: 28rem;
-  position: relative;
-
-  > div {
-    height: 100%;
-  }
-
-  ${LineChartStyled} {
-    height: 100%;
-    width: 100%;
-  }
-
-  ${LoadingContainer} {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  ${breakpoint('medium')`
-    height: 50rem;
-  `}
-`;
-
-const Contorls = styled.ul`
-  display: flex;
-  margin-bottom: auto;
-`;
-
-const ButtonStyled = styled(Button)`
-  margin-right: 1rem;
-
-  &:last-child {
-    margin-right: 0;
-  }
-`;
-
-const Value = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 2rem;
-
-  ${breakpoint('small')`
-    align-items: flex-start;
-    margin-bottom: 0;
-  `}
-`;
-
-const HoveredTime = styled(Text)`
-  color: ${({ theme }) => theme.colors.greyLight};
-  margin-bottom: 1rem;
-`;
-
-
-const HoveredPrice = styled(Text)`
-  color: ${({ theme }) => theme.colors.primary};
-`;
 
 class HistoricalChart extends Component {
   static propTypes = {
@@ -204,7 +128,8 @@ class HistoricalChart extends Component {
       return (
         <ButtonStyled
           key={control.label}
-          size="small"
+          tag="li"
+          modifiers={['small', 'circular', 'circularOnMobile']}
           onClick={() => activeControl !== control && this.onControlClick ? this.onControlClick(control) : null}
           active={activeControl === control}
         >
@@ -222,12 +147,14 @@ class HistoricalChart extends Component {
       <HistoricalChartStyled {...this.props} >
         <Header>
           <Value>
-            <HoveredTime>{activeTime}</HoveredTime>
-            <HoveredPrice size="large">{activePrice}</HoveredPrice>
+            <HoveredTime color="greyLight">{activeTime}</HoveredTime>
+            <HoveredPrice color="primary" size="large">{activePrice}</HoveredPrice>
           </Value>
-          <Contorls>
-            {this.renderControls()}
-          </Contorls>
+          <ControlsWrapper>
+            <Contorls>
+              {this.renderControls()}
+            </Contorls>
+          </ControlsWrapper>
         </Header>
         <Content>
           {error &&

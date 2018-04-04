@@ -6,12 +6,18 @@ storiesOf('Atom - Button', module)
   .add('default', () => (
     <Button>Button Name</Button>
   ))
-  .add('size', () => (
-    <Button size="small">Button Name</Button>
+  .add('small', () => (
+    <Button modifiers={['small']}>Button</Button>
   ))
-  .add('active', () => (
-    <Button active>Button Name</Button>
+  .add('success', () => (
+    <Button modifiers={['success']}>Button</Button>
   ))
-  .add('color & active', () => (
-    <Button active color="secondary">Button Name</Button>
+  .add('warning', () => (
+    <Button modifiers={['warning']}>Button</Button>
+  ))
+  .add('disabled', () => (
+    <Button modifiers={['disabled']}>Button</Button>
+  ))
+  .add('circular', () => (
+    <Button modifiers={['circular', 'circularOnMobile']}>1W</Button>
   ));

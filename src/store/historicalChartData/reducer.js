@@ -30,7 +30,7 @@ const initialState = {
       }
     },
     {
-      label: 'Week',
+      label: '1w',
       timeUnit: 'day',
       displayFormat: 'MMM D',
       apiParams: {
