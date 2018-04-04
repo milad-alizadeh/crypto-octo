@@ -18,8 +18,7 @@ class LineChart extends Component {
       displayFormat: PropTypes.string.isRequired
     }),
     color: PropTypes.string,
-    onTooltipXChange: PropTypes.func,
-    onTooltipYChange: PropTypes.func
+    onTooltipChange: PropTypes.func
   }
 
   constructor(props) {
@@ -37,30 +36,24 @@ class LineChart extends Component {
     this.createChart(ctx, this.getChartOptions(this.props), chartData.data, color);
   }
 
-  componentWillReceiveProps(nextProps) {
-    // this.updateChart(nextProps);
-  }
-
   /**
    * Get Chart options based on the passed props
    * @param  {Obj} props props
    * @return {Obj} chart options
    */
   getChartOptions(props) {
-    let { onTooltipXChange, onTooltipYChange } = props;
+    let { onTooltipChange } = props;
     let { timeUnit, displayFormat, data } = props.chartData;
 
     // Tooltip callbacks - used to broadcast tooltip data to another component
     chartOptions.tooltips.callbacks = {
       label(tooltipItem) {
-        if (onTooltipXChange) {
-          onTooltipXChange(tooltipItem.xLabel);
+        if (onTooltipChange) {
+          onTooltipChange(tooltipItem.xLabel, tooltipItem.yLabel);
         }
       },
-      title(tooltipItem) {
-        if (onTooltipYChange) {
-          onTooltipYChange(tooltipItem[0].yLabel);
-        }
+      title() {
+
       }
     };
 

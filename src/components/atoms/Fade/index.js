@@ -24,6 +24,8 @@ const Fade = (props) => {
     }
   };
 
+  // console.log(inProp);
+
   return (
     <Transition {...props}>
       {

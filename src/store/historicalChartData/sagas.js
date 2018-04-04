@@ -13,9 +13,13 @@ function fetchChartData(params) {
 function* readChartData({ payload: { params } }) {
   try {
     let response = yield call(fetchChartData, params.apiParams);
-    let data = transformData(response.data.Data, params.apiParams);
 
-    yield put(actions.chartDataReadSuccess(data));
+    if (response.data.Response === 'Success') {
+      let data = transformData(response.data.Data, params.apiParams);
+      yield put(actions.chartDataReadSuccess(data));
+    } else {
+      yield put(actions.chartDataReadFailed(Error(response.data.Message)));
+    }
   } catch (error) {
     yield put(actions.chartDataReadFailed(error));
   }

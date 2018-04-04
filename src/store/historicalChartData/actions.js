@@ -17,6 +17,8 @@ export const chartDataReadSuccess = (data) => {
 };
 
 export const chartDataReadFailed = (error) => {
+  console.log(error);
+
   return {
     type: CHART_DATA_READ_FAILED,
     payload: { error }

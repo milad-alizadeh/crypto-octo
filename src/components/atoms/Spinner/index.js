@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import breakpoint from 'styled-components-breakpoint';
 
 const Circle1 = styled.div``;
 const Circle2 = styled.div``;
@@ -13,9 +14,14 @@ const spinnerBounce = keyframes`{
 }`;
 
 const SpinnerStyled = styled.div`
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
   position: relative;
+
+  ${breakpoint('medium')`
+    width: 4rem;
+    height: 4rem;
+  `}
 
   ${Circle1}, ${Circle2} {
     width: 100%;

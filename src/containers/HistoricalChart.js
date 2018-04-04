@@ -38,12 +38,13 @@ class HistoricalChartContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ historicalChartData }) => {
+const mapStateToProps = (state) => {
+  let { loading, error, chartData, controls } = state.historicalChartData;
   return {
-    loading: historicalChartData.loading,
-    error: historicalChartData.error,
-    chartData: historicalChartData.chartData,
-    controls: historicalChartData.controls
+    loading,
+    error,
+    chartData,
+    controls
   };
 };
 

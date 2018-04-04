@@ -4,7 +4,7 @@ import moment from 'moment';
 import styled from 'styled-components';
 import breakpoint from 'styled-components-breakpoint';
 
-import { LineChart, Button, Spinner, Fade } from 'components';
+import { LineChart, Button, Spinner, Fade, Heading } from 'components';
 import theme from '../../themes/default';
 
 const HistoricalChartStyled = styled.div``;
@@ -67,12 +67,13 @@ const Value = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 2rem;
 
   ${breakpoint('small')`
     align-items: flex-start;
+    margin-bottom: 0;
   `}
 `;
-
 
 const HoveredPrice = styled.div`
   color: ${({ theme }) => theme.colors.primary};
@@ -105,11 +106,12 @@ class HistoricalChart extends Component {
       activeTime: '',
       activePrice: '',
       activeControl: null,
+      displayChart: false,
+      animationDuration: 300,
       currentChartData: {}
     };
 
-    this.setTime = this.setTime.bind(this);
-    this.setPrice = this.setPrice.bind(this);
+    this.setTimeoutAndPrice = this.setTimeoutAndPrice.bind(this);
   }
 
   componentWillReceiveProps({ chartData, controls }) {
@@ -122,9 +124,15 @@ class HistoricalChart extends Component {
         }
       });
 
+      // Rerender chart after the transition period is over
+      setTimeout(() => {
+        this.setState({
+          displayChart: true
+        });
+      }, this.state.animationDuration);
+
       // Set the latest time and price
-      this.setTime(chartData[chartData.length - 1].x);
-      this.setPrice(chartData[chartData.length - 1].y);
+      this.setTimeoutAndPrice(chartData[chartData.length - 1].x, chartData[chartData.length - 1].y);
     }
 
     // Select the first control if active control is not set
@@ -137,18 +145,24 @@ class HistoricalChart extends Component {
 
   onControlClick(activeControl) {
     this.setState({
-      activeControl
+      activeControl,
+      displayChart: false
     });
     this.props.onControlClick(activeControl);
   }
 
   setTime(activeTime) {
-    this.setState({ activeTime: moment(activeTime).format('MMMM Do YYYY, h:mm:ss a') });
+    this.setState({ activeTime: moment(activeTime).format('MMMM Do YYYY, h:mm a') });
   }
 
   setPrice(activePrice) {
     let formattedActivePrice = this.formatCurrency(activePrice, '$', 'en-US');
     this.setState({ activePrice: formattedActivePrice });
+  }
+
+  setTimeoutAndPrice(xLabel, yLabel) {
+    this.setTime(xLabel);
+    this.setPrice(yLabel);
   }
 
   /**
@@ -170,7 +184,7 @@ class HistoricalChart extends Component {
         <ButtonStyled
           key={control.label}
           size="small"
-          onClick={() => this.onControlClick(control)}
+          onClick={() => activeControl !== control ? this.onControlClick(control) : null}
           active={activeControl === control}
         >
           {control.label}
@@ -181,12 +195,7 @@ class HistoricalChart extends Component {
 
   render() {
     let { loading, error } = this.props;
-    let { activePrice, activeTime, currentChartData } = this.state;
-    let chart;
-
-    if (error) {
-      chart = (<div style={{ color: 'white' }}>Oops! something went wrong. Please refresh your page</div>);
-    }
+    let { activePrice, activeTime, currentChartData, displayChart, animationDuration } = this.state;
 
     return (
       <HistoricalChartStyled {...this.props} >
@@ -200,19 +209,26 @@ class HistoricalChart extends Component {
           </Contorls>
         </Header>
         <Content>
-          { loading &&
-            <LoadingContainer>
-              <Spinner />
-            </LoadingContainer>
+          {error &&
+            <Heading color="secondary" level={3}>Oops! something went wrong. Please refresh your page and try again</Heading>
           }
 
-          { !loading && currentChartData.data &&
-            <LineChartStyled
-              chartData={currentChartData}
-              color={theme.colors.primary}
-              onTooltipXChange={this.setTime}
-              onTooltipYChange={this.setPrice}
-            />
+          {!error &&
+            <div>
+              <Fade timeout={animationDuration} in={loading}>
+                <LoadingContainer>
+                  <Spinner />
+                </LoadingContainer>
+              </Fade>
+
+              <Fade timeout={animationDuration} in={displayChart}>
+                <LineChartStyled
+                  chartData={currentChartData}
+                  color={theme.colors.primary}
+                  onTooltipChange={this.setTimeoutAndPrice}
+                />
+              </Fade>
+            </div>
           }
         </Content>
       </HistoricalChartStyled>
