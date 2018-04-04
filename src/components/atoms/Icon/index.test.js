@@ -8,8 +8,3 @@ const wrap = (props = {}) => shallow(<Icon icon="github" {...props} theme={theme
 it('renders with different combination of props', () => {
   wrap({ size: 'large' });
 });
-
-it('renders props when passed in', () => {
-  let wrapper = wrap({ id: 'foo' });
-  expect(wrapper.find({ id: 'foo' })).toHaveLength(1);
-});

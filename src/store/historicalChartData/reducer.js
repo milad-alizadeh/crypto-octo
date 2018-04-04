@@ -45,8 +45,38 @@ const initialState = {
       displayFormat: 'MMM D',
       apiParams: {
         timeUnit: 'hour',
-        limit: 720,
+        limit: 144,
         aggregate: 5
+      }
+    },
+    {
+      label: '3m',
+      timeUnit: 'day',
+      displayFormat: 'MMM D',
+      apiParams: {
+        timeUnit: 'day',
+        limit: 90,
+        aggregate: 1
+      }
+    },
+    {
+      label: '6m',
+      timeUnit: 'month',
+      displayFormat: 'MMM',
+      apiParams: {
+        timeUnit: 'day',
+        limit: 180,
+        aggregate: 1
+      }
+    },
+    {
+      label: '1y',
+      timeUnit: 'month',
+      displayFormat: 'MMM YYYY',
+      apiParams: {
+        timeUnit: 'day',
+        limit: 365,
+        aggregate: 2
       }
     }
   ]

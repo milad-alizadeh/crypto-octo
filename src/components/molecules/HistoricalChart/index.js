@@ -4,7 +4,7 @@ import moment from 'moment';
 import styled from 'styled-components';
 import breakpoint from 'styled-components-breakpoint';
 
-import { LineChart, Button, Spinner, Fade, Heading } from 'components';
+import { LineChart, Button, Spinner, Fade, Heading, Text } from 'components';
 import theme from '../../themes/default';
 
 const HistoricalChartStyled = styled.div``;
@@ -34,7 +34,16 @@ const Content = styled.div`
   height: 28rem;
   position: relative;
 
-  ${LineChartStyled}, ${LoadingContainer} {
+  > div {
+    height: 100%;
+  }
+
+  ${LineChartStyled} {
+    height: 100%;
+    width: 100%;
+  }
+
+  ${LoadingContainer} {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -75,14 +84,14 @@ const Value = styled.div`
   `}
 `;
 
-const HoveredPrice = styled.div`
-  color: ${({ theme }) => theme.colors.primary};
-  font-size: 1.8rem;
+const HoveredTime = styled(Text)`
+  color: ${({ theme }) => theme.colors.greyLight};
+  margin-bottom: 1rem;
 `;
 
-const HoveredTime = styled.div`
-  color: ${({ theme }) => theme.colors.white};
-  margin-bottom: 1rem;
+
+const HoveredPrice = styled(Text)`
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 class HistoricalChart extends Component {
@@ -91,7 +100,6 @@ class HistoricalChart extends Component {
     loading: PropTypes.bool,
     error: PropTypes.object,
     onControlClick: PropTypes.func,
-    color: PropTypes.string,
     controls: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
       timeUnit: PropTypes.string.isRequired,
@@ -114,7 +122,42 @@ class HistoricalChart extends Component {
     this.setTimeoutAndPrice = this.setTimeoutAndPrice.bind(this);
   }
 
-  componentWillReceiveProps({ chartData, controls }) {
+  componentDidMount() {
+    this.createChartData(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.createChartData(nextProps);
+  }
+
+  onControlClick(activeControl) {
+    this.setState({
+      activeControl,
+      displayChart: false
+    });
+    this.props.onControlClick(activeControl);
+  }
+
+  setTime(activeTime) {
+    this.setState({ activeTime: moment(activeTime).format('MMMM Do YYYY, h:mm a') });
+  }
+
+  setPrice(activePrice) {
+    let formattedActivePrice = this.formatCurrency(activePrice, '$', 'en-US');
+    this.setState({ activePrice: formattedActivePrice });
+  }
+
+  setTimeoutAndPrice(xLabel, yLabel) {
+    this.setTime(xLabel);
+    this.setPrice(yLabel);
+  }
+
+  /**
+   * Create Chart data based on the current props
+   * @param  {Array} chartData
+   * @param  {Array} controls
+   */
+  createChartData({ chartData, controls }) {
     // Combine data and active control options for the chart
     if (chartData && chartData.length) {
       this.setState({
@@ -143,28 +186,6 @@ class HistoricalChart extends Component {
     }
   }
 
-  onControlClick(activeControl) {
-    this.setState({
-      activeControl,
-      displayChart: false
-    });
-    this.props.onControlClick(activeControl);
-  }
-
-  setTime(activeTime) {
-    this.setState({ activeTime: moment(activeTime).format('MMMM Do YYYY, h:mm a') });
-  }
-
-  setPrice(activePrice) {
-    let formattedActivePrice = this.formatCurrency(activePrice, '$', 'en-US');
-    this.setState({ activePrice: formattedActivePrice });
-  }
-
-  setTimeoutAndPrice(xLabel, yLabel) {
-    this.setTime(xLabel);
-    this.setPrice(yLabel);
-  }
-
   /**
    * Format a number to a currency
    * @param  {Number} number
@@ -172,7 +193,7 @@ class HistoricalChart extends Component {
    * @return {String} formated number
    */
   formatCurrency(number, currency, locale) {
-    return currency + number.toLocaleString(locale);
+    return currency + number.toFixed(2).toLocaleString(locale);
   }
 
   renderControls() {
@@ -184,7 +205,7 @@ class HistoricalChart extends Component {
         <ButtonStyled
           key={control.label}
           size="small"
-          onClick={() => activeControl !== control ? this.onControlClick(control) : null}
+          onClick={() => activeControl !== control && this.onControlClick ? this.onControlClick(control) : null}
           active={activeControl === control}
         >
           {control.label}
@@ -202,7 +223,7 @@ class HistoricalChart extends Component {
         <Header>
           <Value>
             <HoveredTime>{activeTime}</HoveredTime>
-            <HoveredPrice>{activePrice}</HoveredPrice>
+            <HoveredPrice size="large">{activePrice}</HoveredPrice>
           </Value>
           <Contorls>
             {this.renderControls()}
