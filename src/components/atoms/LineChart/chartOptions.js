@@ -1,15 +1,18 @@
 import theme from '../../themes/default';
 
+let gridColor = '#111';
+
 export default {
   layout: {
     padding: {
-      left: 50,
+      left: 0,
       right: 0,
       top: 0,
       bottom: 0
     }
   },
-  animationEasing: 'linear',
+  animation: false,
+  animationEasing: 'easeOutCubic',
   animationSteps: 60,
   responsive: true,
   maintainAspectRatio: false,
@@ -45,7 +48,7 @@ export default {
         ticks: {
           source: 'auto',
           autoSkip: true,
-          autoSkipPadding: 10,
+          autoSkipPadding: 5,
           fontFamily: theme.fonts.primary,
           fontSize: 12,
           padding: 10,
@@ -53,8 +56,8 @@ export default {
         },
         gridLines: {
           drawTicks: true,
-          zeroLineColor: '#18191c',
-          color: '#18191c',
+          zeroLineColor: gridColor,
+          color: gridColor,
           drawBorder: false
         }
       }
@@ -68,14 +71,14 @@ export default {
           mirror: true,
           fontFamily: theme.fonts.primary,
           fontSize: 12,
-          padding: 50,
+          padding: 0,
           fontColor: '#505050',
           maxTicksLimit: 5
         },
         gridLines: {
           drawTicks: false,
-          zeroLineColor: '#18191c',
-          color: '#18191c',
+          zeroLineColor: gridColor,
+          color: gridColor,
           drawBorder: false
         }
       }

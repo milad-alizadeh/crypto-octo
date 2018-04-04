@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import breakpoint from 'styled-components-breakpoint';
 import Chart from 'chart.js';
 import _ from 'lodash';
 import 'chartjs-plugin-annotation';
@@ -9,14 +8,7 @@ import 'chartjs-plugin-annotation';
 import { hexToRGB } from '../../helpers';
 import chartOptions from './chartOptions';
 
-const LineChartStyled = styled.div`
-  height: 28rem;
-  position: relative;
-
-  ${breakpoint('medium')`
-    height: 50rem;
-  `}
-`;
+const LineChartStyled = styled.div``;
 
 class LineChart extends Component {
   static propTypes = {
@@ -46,7 +38,7 @@ class LineChart extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.updateChart(nextProps);
+    // this.updateChart(nextProps);
   }
 
   /**
@@ -197,7 +189,7 @@ class LineChart extends Component {
 
   render() {
     return (
-      <LineChartStyled>
+      <LineChartStyled {...this.props}>
         <canvas ref={(canvas) => { this.canvas = canvas; }} />
       </LineChartStyled>
     );
