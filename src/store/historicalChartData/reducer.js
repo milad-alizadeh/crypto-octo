@@ -15,28 +15,38 @@ const initialState = {
       displayFormat: 'h:mm a',
       apiParams: {
         timeUnit: 'minute',
-        limit: 1440,
-        every: 5
+        limit: 288,
+        aggregate: 5
       }
     },
     {
       label: '3d',
-      timeUnit: 'hour',
-      displayFormat: 'dddd - hh:mm',
+      timeUnit: 'day',
+      displayFormat: 'dddd',
       apiParams: {
-        timeUnit: 'minute',
-        limit: 4320,
-        every: 10
+        timeUnit: 'hour',
+        limit: 72,
+        aggregate: 1
       }
     },
     {
       label: 'Week',
-      timeUnit: 'hour',
-      displayFormat: 'MM DD - hh:mm',
+      timeUnit: 'day',
+      displayFormat: 'MMM D',
       apiParams: {
-        timeUnit: 'minute',
-        limit: 10080,
-        every: 15
+        timeUnit: 'hour',
+        limit: 168,
+        aggregate: 1
+      }
+    },
+    {
+      label: '1m',
+      timeUnit: 'day',
+      displayFormat: 'MMM D',
+      apiParams: {
+        timeUnit: 'hour',
+        limit: 720,
+        aggregate: 5
       }
     }
   ]
@@ -45,13 +55,13 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case CHART_DATA_READ_REQUEST:
-      return { ...state, loading: true, data: null, error: null };
+      return { ...state, loading: true, chartData: null, error: null };
 
     case CHART_DATA_READ_SUCCESS:
-      return { ...state, loading: false, data: payload.data, error: null };
+      return { ...state, loading: false, chartData: payload.data, error: null };
 
     case CHART_DATA_READ_FAILED:
-      return { ...state, loading: false, data: null, error: payload.error };
+      return { ...state, loading: false, chartData: null, error: payload.error };
 
     default:
       return state;

@@ -8,7 +8,7 @@ class HistoricalChartContainer extends Component {
   static propTypes = {
     loading: PropTypes.bool,
     error: PropTypes.object,
-    data: PropTypes.array,
+    chartData: PropTypes.array,
     controls: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
       timeUnit: PropTypes.string.isRequired,
@@ -22,13 +22,13 @@ class HistoricalChartContainer extends Component {
   }
 
   render() {
-    const { loading, error, data, controls } = this.props;
+    const { loading, error, chartData, controls } = this.props;
     return (
       <HistoricalChart {
         ...{
           loading,
           error,
-          data,
+          chartData,
           controls,
           onControlClick: params => this.props.fetchChartData(params)
         }
@@ -42,7 +42,7 @@ const mapStateToProps = ({ historicalChartData }) => {
   return {
     loading: historicalChartData.loading,
     error: historicalChartData.error,
-    data: historicalChartData.data,
+    chartData: historicalChartData.chartData,
     controls: historicalChartData.controls
   };
 };

@@ -6,14 +6,13 @@ import { transformData } from './processData';
 
 function fetchChartData(params) {
   let baseUrl = 'https://min-api.cryptocompare.com/data/histo';
-  let url = `${baseUrl}${params.timeUnit}?fsym=BTC&tsym=USD&limit=${params.limit}`;
+  let url = `${baseUrl}${params.timeUnit}?fsym=BTC&tsym=USD&limit=${params.limit}&aggregate=${params.aggregate}`;
   return axios.get(url);
 }
 
 function* readChartData({ payload: { params } }) {
   try {
     let response = yield call(fetchChartData, params.apiParams);
-
     let data = transformData(response.data.Data, params.apiParams);
 
     yield put(actions.chartDataReadSuccess(data));
