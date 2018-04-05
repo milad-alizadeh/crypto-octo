@@ -38,8 +38,8 @@ const ChartInfo = ({ selectedTime, selectedPrice }) => (
   <ChartInfoStyled>
     { selectedTime && selectedPrice &&
       <div>
-        <SelectedPrice color="primary" size="large">{formatCurrency(selectedPrice, '$', 'en-US')}</SelectedPrice>
-        <SelectedTime color="greyLight">{formatTime(selectedTime, 'MMMM Do YYYY, h:mm a')}</SelectedTime>
+        <SelectedPrice color="primary" size="large" fontWeight="500">{formatCurrency(selectedPrice, '$', 'en-US')}</SelectedPrice>
+        <SelectedTime color="greyLight" fontWeight="500">{formatTime(selectedTime, 'MMMM Do YYYY, h:mm a')}</SelectedTime>
       </div>
     }
   </ChartInfoStyled>
