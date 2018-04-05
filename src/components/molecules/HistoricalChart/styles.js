@@ -51,6 +51,6 @@ export const Content = styled.div`
   }
 
   ${breakpoint('medium')`
-    height: 50rem;
+    height: 40rem;
   `}
 `;

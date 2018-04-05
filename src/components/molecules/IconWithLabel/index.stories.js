@@ -4,5 +4,5 @@ import IconWithLabel from '.';
 
 storiesOf('Molecule - IconWithLabel', module)
   .add('default', () => (
-    <IconWithLabel icon="cog" label="Settings" />
+    <IconWithLabel icon="cog" label="Settings" to="/" />
   ));

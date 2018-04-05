@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Heading } from 'components';
 
 const CardStyled = styled.article`
-  max-width: 700px;
+  max-width: 66.66%;
   margin: auto;
   padding: 2rem;
   background-color: ${({ theme }) => theme.colors.greyDarkest};
