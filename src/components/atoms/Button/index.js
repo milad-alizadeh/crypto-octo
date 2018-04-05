@@ -20,21 +20,15 @@ let color = ({ theme, active }) => (
 
 const MODIFIER_CONFIG = {
   primary: ({ theme }) => `
-    cursor: disabled;
-    &, &:hover {
-      color: ${theme.colors.greyLighter}
-      background: ${theme.colors.greyLighter}
-      border-color: ${theme.colors.greyLighter}
-    }
+    background-color: ${theme.colors.primary};
+    border-color: ${theme.colors.primary};
+    color: ${theme.colors.white};
   `,
 
   secondary: ({ theme }) => `
-    cursor: disabled;
-    &, &:hover {
-      color: ${theme.colors.greyLighter}
-      background: ${theme.colors.greyLighter}
-      border-color: ${theme.colors.greyLighter}
-    }
+    background-color: ${theme.colors.secondary};
+    border-color: ${theme.colors.secondary};
+    color: ${theme.colors.white};
   `,
 
   // Alternatively, you can return an object with your styles under the key `styles`.
@@ -63,8 +57,8 @@ const MODIFIER_CONFIG = {
     color: ${theme.colors.white};
   `,
 
-  small: () => `
-    font-size: 1.4rem;
+  small: ({ theme }) => `
+    font-size: 1.2rem;
     padding: .7rem 1.9rem;
   `,
 
@@ -77,17 +71,27 @@ const MODIFIER_CONFIG = {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 4rem;
-    height: 4rem;
+    width: 3.2rem;
+    height: 3.2rem;
     padding: 0;
     border-radius: 50%;
   `,
 
-  circularOnMobile: () => `
-    ${breakpoints('medium')`
-      background: red !important;
+  circularOnMobile: ({ theme }) => `
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    padding: 0;
+    border-radius: 50%;
+
+    @media screen and (min-width: ${theme.breakpoints.medium}px) {
+      border-radius: 2rem;
+      width: auto;
+      height: auto;
       padding: .7rem 1.9rem;
-    `}
+    }
   `
 };
 

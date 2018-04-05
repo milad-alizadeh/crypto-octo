@@ -48,9 +48,9 @@ export default {
         ticks: {
           source: 'auto',
           autoSkip: true,
-          autoSkipPadding: 5,
+          autoSkipPadding: 10,
           fontFamily: theme.fonts.primary,
-          fontSize: 12,
+          fontSize: 11,
           padding: 10,
           fontColor: '#505050'
         },
@@ -68,10 +68,10 @@ export default {
         display: true,
         ticks: {
           autoSkip: true,
-          mirror: true,
+          mirror: false,
           fontFamily: theme.fonts.primary,
-          fontSize: 12,
-          padding: 0,
+          fontSize: 11,
+          padding: 10,
           fontColor: '#505050',
           maxTicksLimit: 5
         },
