@@ -1,16 +1,19 @@
 import {
   CHART_DATA_READ_REQUEST,
   CHART_DATA_READ_SUCCESS,
-  CHART_DATA_READ_FAILED
+  CHART_DATA_READ_FAILED,
+  SET_SELECTED_PRICE
 } from './actions';
 
 const initialState = {
   loading: false,
   error: null,
   data: null,
+  selectedPrice: null,
+  selectedTime: null,
   controls: [
     {
-      label: '24h',
+      label: '1d',
       timeUnit: 'minute',
       displayFormat: 'h:mm a',
       apiParams: {
@@ -92,6 +95,9 @@ export default (state = initialState, { type, payload }) => {
 
     case CHART_DATA_READ_FAILED:
       return { ...state, loading: false, chartData: null, error: payload.error };
+
+    case SET_SELECTED_PRICE:
+      return { ...state, selectedTime: payload.selectedTime, selectedPrice: payload.selectedPrice };
 
     default:
       return state;

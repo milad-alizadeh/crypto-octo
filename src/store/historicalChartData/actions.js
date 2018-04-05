@@ -1,6 +1,7 @@
 export const CHART_DATA_READ_REQUEST = 'CHART_DATA_READ_REQUEST';
 export const CHART_DATA_READ_SUCCESS = 'CHART_DATA_READ_SUCCESS';
 export const CHART_DATA_READ_FAILED = 'CHART_DATA_READ_FAILED';
+export const SET_SELECTED_PRICE = 'SET_SELECTED_PRICE';
 
 export const chartDataReadRequest = (params) => {
   return {
@@ -17,10 +18,18 @@ export const chartDataReadSuccess = (data) => {
 };
 
 export const chartDataReadFailed = (error) => {
-  console.log(error);
-
   return {
     type: CHART_DATA_READ_FAILED,
     payload: { error }
+  };
+};
+
+export const setSelectedPrice = (selectedTime, selectedPrice) => {
+  return {
+    type: SET_SELECTED_PRICE,
+    payload: {
+      selectedTime,
+      selectedPrice
+    }
   };
 };

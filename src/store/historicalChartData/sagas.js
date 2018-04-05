@@ -17,6 +17,8 @@ function* readChartData({ payload: { params } }) {
     if (response.data.Response === 'Success') {
       let data = transformData(response.data.Data, params.apiParams);
       yield put(actions.chartDataReadSuccess(data));
+      // Set the latest time and price
+      yield put(actions.setSelectedPrice(data[data.length - 1].x, data[data.length - 1].y));
     } else {
       yield put(actions.chartDataReadFailed(Error(response.data.Message)));
     }
