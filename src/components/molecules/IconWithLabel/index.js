@@ -14,8 +14,8 @@ let IconWithLabelStyled = styled(NavLink)`
   align-items: center;
   padding: 1rem;
   cursor: pointer;
-  transition-property: background;
   transition: ${({ theme }) => theme.transition.fast};
+  transition-property: background;
 
   ${IconStyled} {
     width: 2.4rem;

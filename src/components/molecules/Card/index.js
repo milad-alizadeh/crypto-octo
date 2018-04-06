@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Heading } from 'components';
 
 const CardStyled = styled.article`
   padding: 2rem 1rem;
@@ -16,7 +15,15 @@ const CardStyled = styled.article`
   }
 `;
 
-const CardHeader = styled.header`
+const HeadingStyled = styled.div`
+  font-weight: 700;
+  font-family: ${({ theme }) => theme.fonts.primary};
+  font-size: 1.4rem;
+  margin: 0;
+  color: ${({ theme, color }) => color ? theme.colors[color] : theme.colors.greyLight};
+`;
+
+const CardHeader = styled.div`
   margin-bottom: 1rem;
   display: flex;
 `;
@@ -33,7 +40,7 @@ const Card = (props) => {
       {
         heading &&
         <CardHeader>
-          <Heading level={3}>{heading}</Heading>
+          <HeadingStyled>{heading}</HeadingStyled>
         </CardHeader>
       }
       {

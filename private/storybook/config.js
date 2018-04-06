@@ -24,12 +24,15 @@ function loadStories() {
   req.keys().forEach(filename => req(filename));
 }
 
-addDecorator(story => (
-  <Provider store={store}>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>{story()}</ThemeProvider>
-    </BrowserRouter>
-  </Provider>
-));
+
+addDecorator((story) => {
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>{story()}</ThemeProvider>
+      </BrowserRouter>
+    </Provider>
+  );
+});
 
 configure(loadStories, module);

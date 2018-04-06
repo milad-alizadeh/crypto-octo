@@ -13,9 +13,9 @@ const LineChartStyled = styled.div``;
 class LineChart extends Component {
   static propTypes = {
     chartData: PropTypes.shape({
-      data: PropTypes.array.isRequired,
-      timeUnit: PropTypes.string.isRequired,
-      displayFormat: PropTypes.string.isRequired
+      data: PropTypes.array,
+      timeUnit: PropTypes.string,
+      displayFormat: PropTypes.string
     }),
     color: PropTypes.string,
     onTooltipChange: PropTypes.func

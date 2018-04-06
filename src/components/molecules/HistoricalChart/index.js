@@ -100,11 +100,15 @@ class HistoricalChart extends Component {
     });
 
     // Set the latest time and price
-    this.props.getControlData(activeControl);
+    if (this.props.getControlData) {
+      this.props.getControlData(activeControl);
+    }
   }
 
   onTooltipChange(time, price) {
-    this.props.setSelectedPrice(time, price);
+    if (this.props.setSelectedPrice) {
+      this.props.setSelectedPrice(time, price);
+    }
   }
 
   /**

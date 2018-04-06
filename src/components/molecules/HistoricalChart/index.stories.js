@@ -156,19 +156,34 @@ let data = [
 
 let controls = [
   {
-    label: '24h',
-    timeUnit: 'hour',
-    displayFormat: 'ha'
+    label: '1d',
+    timeUnit: 'minute',
+    displayFormat: 'h:mm a',
+    apiParams: {
+      timeUnit: 'minute',
+      limit: 288,
+      aggregate: 5
+    }
   },
   {
     label: '3d',
     timeUnit: 'day',
-    displayFormat: 'dddd - hh:mm'
+    displayFormat: 'dddd',
+    apiParams: {
+      timeUnit: 'hour',
+      limit: 72,
+      aggregate: 1
+    }
   },
   {
     label: '1w',
     timeUnit: 'day',
-    displayFormat: 'dddd'
+    displayFormat: 'MMM D',
+    apiParams: {
+      timeUnit: 'hour',
+      limit: 168,
+      aggregate: 1
+    }
   }
 ];
 
