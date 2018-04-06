@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import breakpoints from 'styled-components-breakpoint';
 import { applyStyleModifiers, styleModifierPropTypes } from 'styled-components-modifiers';
 
 import { ifColor } from '../../helpers';
@@ -57,7 +56,7 @@ const MODIFIER_CONFIG = {
     color: ${theme.colors.white};
   `,
 
-  small: ({ theme }) => `
+  small: () => `
     font-size: 1.2rem;
     padding: .7rem 1.9rem;
   `,
@@ -71,8 +70,8 @@ const MODIFIER_CONFIG = {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 3.2rem;
-    height: 3.2rem;
+    width: 3rem;
+    height: 3rem;
     padding: 0;
     border-radius: 50%;
   `,
@@ -81,8 +80,8 @@ const MODIFIER_CONFIG = {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 3.2rem;
-    height: 3.2rem;
+    width: 3rem;
+    height: 3rem;
     padding: 0;
     border-radius: 50%;
 
