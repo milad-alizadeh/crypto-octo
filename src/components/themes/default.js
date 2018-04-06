@@ -1,7 +1,7 @@
 let theme = {};
 
 theme.breakpoints = {
-  xlarge: 1200,
+  xlarge: 1280,
   large: 1024,
   medium: 768,
   small: 540
