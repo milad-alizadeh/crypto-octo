@@ -1,11 +1,38 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { IconWithLabel } from 'components';
+import breakpoint from 'styled-components-breakpoint';
 import styled from 'styled-components';
 
+let navListData = [
+  {
+    label: 'Dashboard',
+    icon: 'monitor',
+    to: '/',
+    exact: true,
+    activeClassName: 'current'
+  },
+  {
+    label: 'Watchlist',
+    icon: 'list',
+    to: '/watchlist',
+    activeClassName: 'current'
+  },
+  {
+    label: 'Settings',
+    icon: 'cog',
+    to: '/settings',
+    activeClassName: 'current'
+  }
+];
+
 const NavigationStyled = styled.ul`
-  display: flex;
-  background: ${({ theme }) => theme.colors.greyDark};
+  display: grid;
+  grid-template-columns: auto;
+  grid-auto-flow: column;
+
+  ${breakpoint('xlarge')`
+    grid-auto-flow: row;
+  `}
 `;
 
 const NavigationItem = styled.li``;
@@ -20,20 +47,12 @@ const renderList = (navList) => {
   });
 };
 
-const Navigation = (props) => {
+const Navigation = () => {
   return (
-    <NavigationStyled {...props}>
-      {renderList(props.navList)}
+    <NavigationStyled>
+      {renderList(navListData)}
     </NavigationStyled>
   );
-};
-
-Navigation.propTypes = {
-  navList: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    to: PropTypes.string,
-    icon: PropTypes.string
-  }))
 };
 
 export default Navigation;

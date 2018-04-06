@@ -1,15 +1,63 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Spinner, Fade, Heading, ChartControls } from 'components';
+import { Spinner, Fade, Heading, ChartControls, LineChart } from 'components';
 import { ChartInfo } from 'containers';
+import styled from 'styled-components';
+import breakpoint from 'styled-components-breakpoint';
 
-import {
-  HistoricalChartStyled,
-  Header,
-  LoadingContainer,
-  Content,
-  LineChartStyled
-} from './styles';
+const HistoricalChartStyled = styled.div``;
+
+const LineChartStyled = styled(LineChart)``;
+
+const Header = styled.div`
+  display: grid;
+  grid-gap: 2rem;
+  justify-items: center;
+  grid-template-columns: 1fr;
+  text-align: center;
+
+  @media (min-width: 580px) {
+    text-align: left;
+    grid-template-columns: auto 1fr;
+    justify-items: end;
+    align-items: end;
+  }
+`;
+
+const LoadingContainer = styled.div`
+  z-index: 2;
+`;
+
+const Content = styled.div`
+  padding-top: 2rem;
+  height: 28rem;
+  position: relative;
+
+  > div {
+    height: 100%;
+  }
+
+  ${LineChartStyled} {
+    height: 100%;
+    width: 100%;
+  }
+
+  ${LoadingContainer} {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  ${breakpoint('medium')`
+    height: 40rem;
+  `}
+`;
+
 
 import theme from '../../themes/default';
 

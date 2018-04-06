@@ -1,36 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import breakpoint from 'styled-components-breakpoint';
 
 import { Button } from 'components';
 
-export const ControlsWrapper = styled.div`
-  max-width: 100%;
-  margin-top: auto;
-
-  ${breakpoint('medium')`
-    position: relative;
-    top: 1rem;
-  `}
+const Contorls = styled.ul`
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: 1fr;
+  grid-auto-flow: column;
 `;
 
-export const Contorls = styled.ul`
-  display: flex;
-`;
-
-export const ButtonStyled = styled(Button)`
-  margin-right: 1rem;
-  margin-bottom: 1rem;
-
-  &:last-child {
-    margin-right: 0;
-  }
-
-  ${breakpoint('medium')`
-    margin-bottom: 0;
-  `}
-`;
+const ButtonStyled = styled(Button)``;
 
 class ChartControls extends Component {
   static propTypes = {
@@ -89,11 +70,9 @@ class ChartControls extends Component {
     let { controls, setActiveControl } = this.props;
 
     return (
-      <ControlsWrapper>
-        <Contorls>
-          { this.renderControls(activeControl, controls, setActiveControl) }
-        </Contorls>
-      </ControlsWrapper>
+      <Contorls>
+        { this.renderControls(activeControl, controls, setActiveControl) }
+      </Contorls>
     );
   }
 }

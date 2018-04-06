@@ -1,29 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import breakpoint from 'styled-components-breakpoint';
 import moment from 'moment';
 
 import { Text } from 'components';
 
-export const ChartInfoStyled = styled.div`
-  > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 2rem;
+export const ChartInfoStyled = styled.div``;
 
-    ${breakpoint('medium')`
-      align-items: flex-start;
-      margin-bottom: 0;
-    `}
-  }
-
+export const SelectedTime = styled(Text)`
+  display: block;
 `;
-
-export const SelectedTime = styled(Text)``;
 export const SelectedPrice = styled(Text)`
   margin-bottom: 1rem;
+  display: block;
 `;
 
 const formatCurrency = (number, currencySymbol, locale) => {
