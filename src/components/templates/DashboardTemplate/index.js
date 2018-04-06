@@ -22,6 +22,8 @@ const DashboardTemplateStyled = styled.div`
 `;
 
 const SmallCard = styled(Card)`
+  background: ${({ theme }) => theme.colors.greyDark};
+
   @media (min-width: 620px) {
     grid-column: span 2;
   }
