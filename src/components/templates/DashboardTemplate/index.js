@@ -66,11 +66,11 @@ const DashboardTemplate = ({ header, footer, nav }) => (
         <Text size="medium">$12,00</Text>
       </SmallCard>
 
-      <LargeCard heading="Portfolio Performance" headingPosition="center">
+      <LargeCard heading="Portfolio Performance">
         <HistoricalChart />
       </LargeCard>
 
-      <MediumCard heading="Portfolio Distribution" headingPosition="center">
+      <MediumCard heading="Portfolio Distribution">
         <Text size="medium">Pie Chart Goes Here</Text>
       </MediumCard>
 

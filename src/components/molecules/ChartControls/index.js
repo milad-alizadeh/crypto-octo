@@ -5,13 +5,20 @@ import styled from 'styled-components';
 import { Button } from 'components';
 
 const Contorls = styled.ul`
-  display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: 1fr;
-  grid-auto-flow: column;
+  display: flex;
+
+  @media (min-width: 540px) {
+    justify-content: flex-end;
+  }
 `;
 
-const ButtonStyled = styled(Button)``;
+const ButtonStyled = styled(Button)`
+  margin-right: 1rem;
+
+  &:last-child {
+    margin-right: 0;
+  }
+`;
 
 class ChartControls extends Component {
   static propTypes = {

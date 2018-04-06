@@ -26,12 +26,12 @@ let navListData = [
 ];
 
 const NavigationStyled = styled.ul`
-  display: grid;
-  grid-template-columns: auto;
-  grid-auto-flow: column;
+  display: flex;
+  justify-content: center;
 
   ${breakpoint('xlarge')`
-    grid-auto-flow: row;
+    flex-direction: column;
+    justify-content: flex-start;
   `}
 `;
 

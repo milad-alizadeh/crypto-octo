@@ -19,20 +19,20 @@ const CardStyled = styled.article`
 const CardHeader = styled.header`
   margin-bottom: 1rem;
   display: flex;
-  justify-content: ${({ headingPosition }) => headingPosition};
 `;
+
 const CardContent = styled.div`
   margin-top: auto;
 `;
 
 const Card = (props) => {
-  let { heading, headingPosition, children } = props;
+  let { heading, children } = props;
 
   return (
     <CardStyled {...props}>
       {
         heading &&
-        <CardHeader headingPosition={headingPosition}>
+        <CardHeader>
           <Heading level={3}>{heading}</Heading>
         </CardHeader>
       }
@@ -46,7 +46,6 @@ const Card = (props) => {
 
 Card.propTypes = {
   heading: PropTypes.string,
-  headingPosition: PropTypes.string,
   children: PropTypes.node
 };
 

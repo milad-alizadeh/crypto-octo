@@ -11,15 +11,12 @@ const LineChartStyled = styled(LineChart)``;
 
 const Header = styled.div`
   display: grid;
-  grid-gap: 2rem;
-  justify-items: center;
-  grid-template-columns: 1fr;
-  text-align: center;
+  grid-gap: 4rem;
+  text-align: left;
+  padding-top: 2rem;
 
-  @media (min-width: 580px) {
-    text-align: left;
+  @media (min-width: 540px) {
     grid-template-columns: auto 1fr;
-    justify-items: end;
     align-items: end;
   }
 `;

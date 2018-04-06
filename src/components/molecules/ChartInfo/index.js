@@ -5,12 +5,19 @@ import moment from 'moment';
 
 import { Text } from 'components';
 
-export const ChartInfoStyled = styled.div``;
+const ChartInfoStyled = styled.div`
 
-export const SelectedTime = styled(Text)`
-  display: block;
 `;
-export const SelectedPrice = styled(Text)`
+
+const SelectedTime = styled(Text)`
+  display: block;
+
+  @media (min-width: 540px) {
+    margin-bottom: .6rem;
+  }
+`;
+
+const SelectedPrice = styled(Text)`
   margin-bottom: 1rem;
   display: block;
 `;
