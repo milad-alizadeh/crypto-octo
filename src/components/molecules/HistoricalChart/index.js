@@ -4,6 +4,7 @@ import { Spinner, Fade, Heading, ChartControls, LineChart } from 'components';
 import { ChartInfo } from 'containers';
 import styled from 'styled-components';
 import breakpoint from 'styled-components-breakpoint';
+import theme from '../../themes/default';
 
 const HistoricalChartStyled = styled.div``;
 
@@ -55,8 +56,6 @@ const Content = styled.div`
   `}
 `;
 
-
-import theme from '../../themes/default';
 
 class HistoricalChart extends Component {
   static propTypes = {
@@ -152,11 +151,11 @@ class HistoricalChart extends Component {
 
           {!error &&
             <div>
-              <Fade timeout={animationDuration} in={loading}>
+              {loading &&
                 <LoadingContainer>
                   <Spinner />
                 </LoadingContainer>
-              </Fade>
+              }
 
               <Fade timeout={animationDuration} in={displayChart}>
                 <LineChartStyled

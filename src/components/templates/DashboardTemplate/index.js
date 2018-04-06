@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import breakpoint from 'styled-components-breakpoint';
-import { LayoutTemplate, Card, Text } from 'components';
-import { HistoricalChart } from 'containers';
+import { Card } from 'components';
 
 const DashboardTemplateStyled = styled.div`
   display: grid;
@@ -47,42 +46,21 @@ const LargeCard = styled(Card)`
   `}
 `;
 
-const DashboardTemplate = ({ header, footer, nav }) => (
-  <LayoutTemplate header={header} footer={footer} nav={nav}>
+const DashboardTemplate = ({ data }) => {
+  return (
     <DashboardTemplateStyled>
-      <SmallCard heading="Total Value of All Coins">
-        <Text size="medium">$36,500</Text>
-      </SmallCard>
-
-      <SmallCard heading="Realised Profit/Loss">
-        <Text size="medium">$58,670.63</Text>
-      </SmallCard>
-
-      <SmallCard heading="acquisition cost">
-        <Text size="medium">$12,000</Text>
-      </SmallCard>
-
-      <SmallCard heading="Change in the last 24h">
-        <Text size="medium">$12,00</Text>
-      </SmallCard>
-
-      <LargeCard heading="Portfolio Performance">
-        <HistoricalChart />
-      </LargeCard>
-
-      <MediumCard heading="Portfolio Distribution">
-        <Text size="medium">Pie Chart Goes Here</Text>
-      </MediumCard>
-
+      <SmallCard heading={data.card1.heading}>{data.card1.component}</SmallCard>
+      <SmallCard heading={data.card2.heading}>{data.card2.component}</SmallCard>
+      <SmallCard heading={data.card3.heading}>{data.card3.component}</SmallCard>
+      <SmallCard heading={data.card4.heading}>{data.card4.component}</SmallCard>
+      <LargeCard heading={data.card5.heading}>{data.card5.component}</LargeCard>
+      <MediumCard heading={data.card6.heading}>{data.card6.component}</MediumCard>
     </DashboardTemplateStyled>
-  </LayoutTemplate>
-);
+  );
+};
 
 DashboardTemplate.propTypes = {
-  header: PropTypes.node,
-  footer: PropTypes.node,
-  nav: PropTypes.node,
-  children: PropTypes.node.isRequired
+  data: PropTypes.object.isRequired
 };
 
 export default DashboardTemplate;

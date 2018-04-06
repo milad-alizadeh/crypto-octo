@@ -5,9 +5,7 @@ import moment from 'moment';
 
 import { Text } from 'components';
 
-const ChartInfoStyled = styled.div`
-
-`;
+const ChartInfoStyled = styled.div``;
 
 const SelectedTime = styled(Text)`
   display: block;

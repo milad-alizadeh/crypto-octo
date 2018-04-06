@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import breakpoint from 'styled-components-breakpoint';
+import ReactDelayRender from 'react-delay-render';
 
 const Circle1 = styled.div``;
 const Circle2 = styled.div``;
@@ -9,6 +10,7 @@ const spinnerBounce = keyframes`{
   0%, 100% {
     transform: scale(0.0);
   } 50% {
+    opacity: 0;
     transform: scale(1.0);
   }
 }`;
@@ -32,11 +34,11 @@ const SpinnerStyled = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    animation: ${spinnerBounce} 2.0s infinite ease-in-out;
+    animation: ${spinnerBounce} 2s infinite ease-in-out;
   }
 
   ${Circle2} {
-    animation-delay: -1.0s;
+    animation-delay: -1s;
 }
 `;
 
@@ -47,4 +49,4 @@ const Spinner = props => (
   </SpinnerStyled>
 );
 
-export default Spinner;
+export default ReactDelayRender({ delay: 300 })(Spinner);
