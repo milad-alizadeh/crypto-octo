@@ -26,5 +26,5 @@ let list = [
 
 storiesOf('Molecule - Navigation', module)
   .add('default', () => (
-    <Navigation list={list} />
+    <Navigation navList={list} />
   ));

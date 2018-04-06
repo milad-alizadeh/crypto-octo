@@ -11,7 +11,6 @@ export default function () {
       font-family: ${theme.fonts.primary};
       font-weight: 400;
       font-size: 1.4rem;
-      padding: 2rem;
     }
   `;
 }

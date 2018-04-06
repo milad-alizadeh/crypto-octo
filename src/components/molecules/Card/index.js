@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import { Heading } from 'components';
 
 const CardStyled = styled.article`
-  max-width: 66.66%;
-  margin: auto;
   padding: 2rem;
   background-color: ${({ theme }) => theme.colors.greyDarkest};
   background: ${({ theme }) => `linear-gradient(0deg, ${theme.colors.greyDarker} 0%, ${theme.colors.greyDark} 100%);`};
