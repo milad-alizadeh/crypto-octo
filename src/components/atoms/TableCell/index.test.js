@@ -1,8 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import TableCell from '.';
+import theme from '../../themes/default';
 
-const wrap = (props = {}) => shallow(<TableCell {...props} />).dive()
+const wrap = (props = {}) => shallow(<TableCell {...props} theme={theme} />).dive();
 
 it('renders children when passed in', () => {
   const wrapper = wrap({ children: 'test' });

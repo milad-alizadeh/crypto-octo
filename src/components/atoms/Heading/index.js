@@ -18,7 +18,7 @@ let HeadingStyled = styled.h1`
   font-family: ${({ theme }) => theme.fonts.primary};
   font-size: ${({ size }) => fontSize(size)};
   margin: 0;
-  color: ${({ theme, color }) => color ? theme.colors[color] : theme.colors.greyLight};
+  color: ${({ theme, color }) => color ? theme.colors[color] : theme.colors.grey};
 `;
 
 const Heading = (props) => {

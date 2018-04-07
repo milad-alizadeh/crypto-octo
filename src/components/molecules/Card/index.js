@@ -40,7 +40,7 @@ const Card = (props) => {
       {
         heading &&
         <CardHeader>
-          <HeadingStyled>{heading}</HeadingStyled>
+          <HeadingStyled {...props}>{heading}</HeadingStyled>
         </CardHeader>
       }
       {
