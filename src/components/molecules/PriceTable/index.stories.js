@@ -37,3 +37,9 @@ let data = [
     change24Flag: 1
   }
 ];
+
+
+storiesOf('Molecule - PriceTable', module)
+  .add('default', () => (
+    <PriceTable data={data} />
+  ));

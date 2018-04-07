@@ -4,7 +4,20 @@ import styled from 'styled-components';
 import { TableCell, TableRow, Table } from 'components';
 
 const Tr = styled(TableRow)``;
-const Td = styled(TableCell)``;
+const Td = styled(TableCell)`
+  width: 20%;
+  vertical-align: middle;
+
+  > div {
+    display: flex;
+    align-items: center;
+
+    img {
+      max-width: 2.4rem;
+      margin-right: 1rem;
+    }
+  }
+`;
 const PriceTableStyled = styled(Table)``;
 
 const renderRow = (row) => {
@@ -21,8 +34,13 @@ const renderRow = (row) => {
   } = row;
 
   return (
-    <Tr>
-      <Td key={name}><img src={icon} alt="" />{name}</Td>
+    <Tr key={name}>
+      <Td key={name}>
+        <div>
+          <img src={icon} alt="" />
+          {name}
+        </div>
+      </Td>
       <Td key={price} flag={priceFlag}>{price}</Td>
       <Td key={totalValue}>{totalValue}</Td>
       <Td key={profitLoss} flag={profitLossFlag}>{profitLoss}</Td>
@@ -33,7 +51,17 @@ const renderRow = (row) => {
 
 const PriceTable = ({ data }) => {
   return (
-    <PriceTableStyled>
+    <PriceTableStyled
+      head={
+        <Tr>
+          <Td heading>Coin</Td>
+          <Td heading>Price</Td>
+          <Td heading>Total Value</Td>
+          <Td heading>Profit/Loss</Td>
+          <Td heading>Change 24h</Td>
+        </Tr>
+      }
+    >
       {data.map(row => renderRow(row))}
     </PriceTableStyled>
   );
