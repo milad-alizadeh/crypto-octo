@@ -1,7 +1,7 @@
 // https://github.com/diegohaz/arc/wiki/Atomic-Design
 import React from 'react';
 import { HistoricalChart } from 'containers';
-import { Text, Navigation, DashboardTemplate } from 'components';
+import { Text, DashboardTemplate } from 'components';
 
 let data = {
   footer: '',
@@ -24,7 +24,7 @@ let data = {
   },
   card5: {
     heading: 'Portfolio Performance',
-    // component: <HistoricalChart />
+    component: <HistoricalChart />
   },
   card6: {
     heading: 'Distribution Chart',
@@ -35,7 +35,6 @@ let data = {
 const HomePage = () => {
   return (
     <DashboardTemplate
-      nav={<Navigation />}
       data={data}
     />
   );

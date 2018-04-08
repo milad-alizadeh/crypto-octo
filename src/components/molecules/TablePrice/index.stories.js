@@ -39,7 +39,7 @@ let data = [
 ];
 
 
-storiesOf('Molecule - PriceTable', module)
+storiesOf('Molecule - Table--Price', module)
   .add('default', () => (
     <PriceTable data={data} />
   ));

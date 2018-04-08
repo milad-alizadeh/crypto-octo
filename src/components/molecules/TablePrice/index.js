@@ -18,7 +18,8 @@ const Td = styled(TableCell)`
     }
   }
 `;
-const PriceTableStyled = styled(Table)``;
+
+const TablePriceStyled = styled(Table)``;
 
 const renderRow = (row) => {
   let {
@@ -49,9 +50,9 @@ const renderRow = (row) => {
   );
 };
 
-const PriceTable = ({ data }) => {
+const TablePrice = ({ data }) => {
   return (
-    <PriceTableStyled
+    <TablePriceStyled
       head={
         <Tr>
           <Td heading>Coin</Td>
@@ -63,11 +64,11 @@ const PriceTable = ({ data }) => {
       }
     >
       {data.map(row => renderRow(row))}
-    </PriceTableStyled>
+    </TablePriceStyled>
   );
 };
 
-PriceTable.propTypes = {
+TablePrice.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     icon: PropTypes.string,
@@ -81,4 +82,4 @@ PriceTable.propTypes = {
   }))
 };
 
-export default PriceTable;
+export default TablePrice;

@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 
 const styles = css`
   text-align: left;
-  padding: 0.75em;
+  padding: 1rem;
   color: ${({ theme }) => theme.colors.greyLight};
   font-family: ${({ theme }) => theme.fonts.primary};
 `;
@@ -13,12 +13,13 @@ const Th = styled.th`
   ${styles}
   font-size: 1.4rem;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 600;
 `;
 const Td = styled.td`
   ${styles}
   font-size: 1.4rem;
-  border-bottom: .1rem solid ${({ theme }) => theme.colors.grey};
+  font-weight: 400;
+  border-bottom: .1rem solid ${({ theme }) => theme.colors.greyDark};
 `;
 
 const TableCell = ({ heading, children, ...props }) => {
