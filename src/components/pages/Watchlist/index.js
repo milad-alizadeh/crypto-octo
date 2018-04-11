@@ -87,21 +87,20 @@ let data = {
 
 class Watchlist extends React.Component {
   componentDidMount() {
-
-    const socket = io('wss://streamer.cryptocompare.com');
-    socket.emit('SubAdd', {
-      subs: ['2~Coinbase~BTC~USD']
-    });
-
-    socket.on('m', (e) => {
-      console.log(e);
-    });
+    //
+    // const socket = io('wss://streamer.cryptocompare.com');
+    // socket.emit('SubAdd', {
+    //   subs: ['2~Coinbase~BTC~USD']
+    // });
+    //
+    // socket.on('m', (e) => {
+    //   console.log(e);
+    // });
 
     console.log('did mount');
   }
 
   render() {
-
     return (
       <WatchlistTemplate data={data} />
     )

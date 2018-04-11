@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const CardStyled = styled.article`
   padding: 2rem 1rem;
   background-color: ${({ theme }) => theme.colors.greyDarker};
-  background: ${({ theme }) => `linear-gradient(0deg, ${theme.colors.greyDarker} 0%, ${theme.colors.greyDark} 100%);`};
+  background: ${({ theme }) => `linear-gradient(0deg, ${theme.colors.greyDarkest} 0%, ${theme.colors.greyDarker} 100%);`};
   border-radius: ${({ theme }) => theme.borderRadius};
   box-shadow: ${({ theme }) => theme.boxShadow};
   color: ${({ theme }) => theme.colors.greyLight};
