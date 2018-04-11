@@ -7,10 +7,14 @@ export default function () {
     ${Reset}
 
     body {
-      background: ${theme.colors.greyDarker};
+      background: ${theme.colors.greyDarkest};
       font-family: ${theme.fonts.primary};
       font-weight: 400;
       font-size: 1.4rem;
+    }
+
+    ::selection {
+      background: ${theme.colors.primary};
     }
   `;
 }
