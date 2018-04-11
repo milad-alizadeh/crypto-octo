@@ -3,7 +3,7 @@ import Transition from 'react-transition-group/Transition';
 import PropTypes from 'prop-types';
 
 const Fade = (props) => {
-  let { children, timeout, in: inProp } = props;
+  let { children, timeout } = props;
 
   let duration = typeof timeout === 'object' ? timeout.exit : timeout;
 

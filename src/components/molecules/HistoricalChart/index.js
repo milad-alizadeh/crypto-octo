@@ -77,7 +77,7 @@ class HistoricalChart extends Component {
     this.state = {
       activeControl: null,
       displayChart: false,
-      animationDuration: 300,
+      animationDuration: 200,
       currentChartData: {}
     };
 
@@ -91,6 +91,11 @@ class HistoricalChart extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.createChartData(nextProps);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+    this.timeout = 0;
   }
 
   onSetActiveControl(activeControl) {
@@ -127,7 +132,7 @@ class HistoricalChart extends Component {
       });
 
       // Rerender chart after the transition period is over
-      setTimeout(() => {
+      this.timeout = setTimeout(() => {
         this.setState({
           displayChart: true
         });
