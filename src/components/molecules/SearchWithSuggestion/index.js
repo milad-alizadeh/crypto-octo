@@ -92,22 +92,6 @@ class SearchWithSuggestion extends Component {
         listWrapper.scrollTop = currentItemPosition;
       }
     }
-
-    //
-    // if (itemIndex < rowCount && listWrapper.scrollTop === 0) {
-    //   listWrapper.scrollTop = 0;
-    // } else if (itemIndex >= listItems.length - rowCount - 1) {
-    //   listWrapper.scrollTop = currentItemPosition;
-    // } else {
-    //   direction === 'down' ? listWrapper.scrollTop += ItemHeight : listWrapper.scrollTop -= ItemHeight;
-    // }
-
-    // if (currentItemPosition >= (listWrapperHeight + listWrapperScrollPosition)) {
-    //   direction === 'down' ? listWrapper.scrollTop += currentItemHeight : listWrapper.scrollTop -= currentItemHeight;
-    // } else {
-    //   listWrapper.scrollTop = 0;
-    // }
-    // Scroll the list to the next item
   }
 
   filterResult = (event) => {

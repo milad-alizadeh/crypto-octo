@@ -31,6 +31,34 @@ const list = [
   {
     label: 'Samuel',
     value: 87
+  },
+  {
+    label: 'Milad',
+    value: 3352
+  },
+  {
+    label: 'Chessa',
+    value: 41213
+  },
+  {
+    label: 'Rob',
+    value: 23564
+  },
+  {
+    label: 'Vasi',
+    value: 1331
+  },
+  {
+    label: 'Chris',
+    value: 65675
+  },
+  {
+    label: 'Joe',
+    value: 98987
+  },
+  {
+    label: 'James',
+    value: 87234
   }
 ];
 
