@@ -24,23 +24,23 @@ class SearchWithSuggestion extends Component {
   static keyDownHandlers = {
     ArrowDown() {
       let { highlightedIndex, filteredList } = this.state;
+      let nextIndex;
 
       if (highlightedIndex === null) {
-        this.setState({ highlightedIndex: 0 });
+        nextIndex = 0;
       } else {
-        let nextIndex = highlightedIndex < filteredList.length - 1 ? highlightedIndex += 1 : 0;
-        this.setState({ highlightedIndex: nextIndex });
+        nextIndex = highlightedIndex < filteredList.length - 1 ? highlightedIndex += 1 : 0;
       }
+
+      this.setState({ highlightedIndex: nextIndex });
+      this.handleScroll(nextIndex, 'down');
     },
     ArrowUp() {
       let { highlightedIndex, filteredList } = this.state;
 
-      if (highlightedIndex === null) {
-        this.setState({ isOpen: false });
-      } else {
-        let previousIndex = highlightedIndex > 0 ? highlightedIndex -= 1 : filteredList.length - 1;
-        this.setState({ highlightedIndex: previousIndex });
-      }
+      let previousIndex = highlightedIndex > 0 ? highlightedIndex -= 1 : filteredList.length - 1;
+      this.setState({ highlightedIndex: previousIndex });
+      this.handleScroll(previousIndex, 'up');
     },
     Enter(event) {
       let { highlightedIndex, filteredList } = this.state;
@@ -70,6 +70,44 @@ class SearchWithSuggestion extends Component {
       filteredList: props.list,
       currentInputValue: ''
     };
+  }
+
+  handleScroll(itemIndex, direction) {
+    let listWrapper = this.suggestionList.scrollableDiv;
+    let listWrapperHeight = listWrapper.offsetHeight;
+    let list = this.suggestionList.searchListNode;
+    let listItems = list.children;
+    let ItemHeight = listItems[0].offsetHeight;
+    let currentItemPosition = listItems[itemIndex].offsetTop;
+    let rowCount = (listWrapperHeight / ItemHeight);
+
+    if (direction === 'down') {
+      listWrapper.scrollTop += ItemHeight;
+      if (itemIndex < rowCount) {
+        listWrapper.scrollTop = 0;
+      }
+    } else {
+      listWrapper.scrollTop -= ItemHeight;
+      if (itemIndex >= listItems.length - rowCount - 1) {
+        listWrapper.scrollTop = currentItemPosition;
+      }
+    }
+
+    //
+    // if (itemIndex < rowCount && listWrapper.scrollTop === 0) {
+    //   listWrapper.scrollTop = 0;
+    // } else if (itemIndex >= listItems.length - rowCount - 1) {
+    //   listWrapper.scrollTop = currentItemPosition;
+    // } else {
+    //   direction === 'down' ? listWrapper.scrollTop += ItemHeight : listWrapper.scrollTop -= ItemHeight;
+    // }
+
+    // if (currentItemPosition >= (listWrapperHeight + listWrapperScrollPosition)) {
+    //   direction === 'down' ? listWrapper.scrollTop += currentItemHeight : listWrapper.scrollTop -= currentItemHeight;
+    // } else {
+    //   listWrapper.scrollTop = 0;
+    // }
+    // Scroll the list to the next item
   }
 
   filterResult = (event) => {
@@ -165,6 +203,7 @@ class SearchWithSuggestion extends Component {
             onFocus={this.handleListFocus}
             onBlur={this.handleListBlur}
             onMouseOut={this.handleListBlur}
+            innerRef={(comp) => { this.suggestionList = comp; }}
           />
         }
       </SearchWithSuggestionStyled>

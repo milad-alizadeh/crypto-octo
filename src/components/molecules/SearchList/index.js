@@ -59,8 +59,8 @@ class SearchInput extends Component {
     let { list, ...props } = this.props;
 
     return (
-      <SearchListWrapper {...props}>
-        <SearchListStyled>
+      <SearchListWrapper {...props} innerRef={(comp) => { this.scrollableDiv = comp; }}>
+        <SearchListStyled innerRef={(comp) => { this.searchListNode = comp; }}>
           {this.renderList(list)}
         </SearchListStyled>
       </SearchListWrapper>
