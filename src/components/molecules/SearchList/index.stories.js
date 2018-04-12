@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import SearchList from '.';
 
-const list = [
+const arrayList = [
   {
     label: 'John',
     value: 32
@@ -34,10 +34,42 @@ const list = [
   }
 ];
 
+const objectList = {
+  32: {
+    label: 'john'
+  },
+  34: {
+    label: 'Jack'
+  },
+  36: {
+    label: 'john'
+  },
+  39: {
+    label: 'Matt'
+  },
+  333: {
+    label: 'Chloe'
+  },
+  423: {
+    label: 'Sara'
+  },
+  3242: {
+    label: 'Sam'
+  }
+};
+
 storiesOf('Molecule - SearchList', module)
-  .add('default', () => (
+  .add('default - array list', () => (
     <SearchList
-      list={list}
-      onItemSelect={action('item selected')}
+      list={arrayList}
+      onItemHover={action('hover')}
+      onItemClick={action('click')}
+    />
+  ))
+  .add('default - object list', () => (
+    <SearchList
+      list={objectList}
+      onItemHover={action('hover')}
+      onItemClick={action('click')}
     />
   ));

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { SearchListItem } from 'components';
+import _ from 'lodash';
 
 const SearchListItemStyled = styled(SearchListItem)``;
 
@@ -34,13 +35,16 @@ const SearchListWrapper = styled.div`
 
 class SearchInput extends Component {
   static propTypes = {
-    list: PropTypes.array,
+    list: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.object
+    ]),
     onItemHover: PropTypes.func,
     onItemClick: PropTypes.func,
     highlightedItem: PropTypes.object
   }
 
-  renderList = (list) => {
+  renderArrayList = (list) => {
     let { onItemHover, onItemClick, highlightedItem } = this.props;
     return list.map((item) => {
       return (
@@ -55,13 +59,29 @@ class SearchInput extends Component {
     });
   }
 
+  renderObjectList = (list) => {
+    let { onItemHover, onItemClick, highlightedItem } = this.props;
+
+    return _.map(list, (value, key) => {
+      return (
+        <SearchListItemStyled
+          key={key}
+          onItemHover={onItemHover}
+          onItemClick={onItemClick}
+          item={value}
+          modifiers={highlightedItem === value ? ['highlighted'] : []}
+        />
+      );
+    });
+  }
+
   render() {
     let { list, ...props } = this.props;
 
     return (
       <SearchListWrapper {...props} innerRef={(comp) => { this.scrollableDiv = comp; }}>
         <SearchListStyled innerRef={(comp) => { this.searchListNode = comp; }}>
-          {this.renderList(list)}
+          {Array.isArray(list) ? this.renderArrayList(list) : this.renderObjectList(list)}
         </SearchListStyled>
       </SearchListWrapper>
     );

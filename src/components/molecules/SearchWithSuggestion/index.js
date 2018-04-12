@@ -18,14 +18,23 @@ class SearchWithSuggestion extends Component {
   static propTypes = {
     placeholder: PropTypes.string,
     list: PropTypes.array,
-    onItemSelect: PropTypes.func
+    onItemSelect: PropTypes.func,
+    fetchList: PropTypes.func,
+    loading: PropTypes.bool,
+    error: PropTypes.object
   }
 
+  static defaultProps = {
+    list: []
+  }
+
+  // Keyboard handlers
   static keyDownHandlers = {
     ArrowDown() {
       let { highlightedIndex, filteredList } = this.state;
       let nextIndex;
 
+      // Set the index of current highlighted item
       if (highlightedIndex === null) {
         nextIndex = 0;
       } else {
@@ -33,13 +42,18 @@ class SearchWithSuggestion extends Component {
       }
 
       this.setState({ highlightedIndex: nextIndex });
+
+      // Scroll to the correct item
       this.handleScroll(nextIndex, 'down');
     },
     ArrowUp() {
       let { highlightedIndex, filteredList } = this.state;
 
+      // Set the index of current highlighted item
       let previousIndex = highlightedIndex > 0 ? highlightedIndex -= 1 : filteredList.length - 1;
       this.setState({ highlightedIndex: previousIndex });
+
+      // Scroll to the correct item
       this.handleScroll(previousIndex, 'up');
     },
     Enter(event) {
@@ -49,13 +63,16 @@ class SearchWithSuggestion extends Component {
         return;
       }
 
+      // Select the highlighted index and fill the input value with it
       if (filteredList[highlightedIndex].value) {
+        this.props.onItemSelect(filteredList[highlightedIndex]);
         this.setState({
           currentInputValue: filteredList[highlightedIndex].label,
           isOpen: false
         });
       }
     },
+    // Close the autocomplete list
     Escape() {
       this.setState({ isOpen: false });
     }
@@ -68,10 +85,12 @@ class SearchWithSuggestion extends Component {
       isOpen: false,
       highlightedIndex: null,
       filteredList: props.list,
-      currentInputValue: ''
+      currentInputValue: '',
+      fetchRequestSent: false
     };
   }
 
+  // Scroll to the highlighted item when using keyboard arrows
   handleScroll(itemIndex, direction) {
     let listWrapper = this.suggestionList.scrollableDiv;
     let listWrapperHeight = listWrapper.offsetHeight;
@@ -122,7 +141,15 @@ class SearchWithSuggestion extends Component {
   }
 
   handleInputFocus = () => {
-    let { isOpen, currentInputValue } = this.state;
+    let { isOpen, currentInputValue, fetchRequestSent } = this.state;
+
+    // Fetch the coinlist if it's not already fetched
+    if (!fetchRequestSent && this.props.fetchList) {
+      this.setState({ fetchRequestSent: true }, () => {
+        this.props.fetchList();
+      });
+    }
+
     if (!isOpen && !currentInputValue) {
       this.setState({ isOpen: true });
     }
@@ -177,7 +204,7 @@ class SearchWithSuggestion extends Component {
           onKeyDown={this.handleKeyDown}
           onClick={this.handleInputFocus}
         />
-        { isOpen &&
+        { isOpen && filteredList.length > 1 &&
           <SearchListStyled
             list={filteredList}
             onItemHover={this.handleItemHover}

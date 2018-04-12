@@ -1,6 +1,6 @@
 // https://github.com/diegohaz/arc/wiki/Atomic-Design
 import React from 'react';
-import { HistoricalChart } from 'containers';
+import { HistoricalChart, CoinSearch } from 'containers';
 import { Text, DashboardTemplate } from 'components';
 
 let data = {
@@ -24,7 +24,7 @@ let data = {
   },
   card5: {
     heading: 'Portfolio Performance',
-    component: <HistoricalChart />
+    component: <CoinSearch />
   },
   card6: {
     heading: 'Distribution Chart',

@@ -3,7 +3,7 @@ import axios from 'axios';
 import * as actions from './actions';
 
 function fetchCoinList() {
-  let url = 'https://www.cryptocompare.com/api/data/coinlist/';
+  let url = 'https://min-api.cryptocompare.com/data/all/coinlist';
   return axios.get(url);
 }
 
@@ -11,7 +11,6 @@ function* readCoinListData() {
   try {
     let response = yield call(fetchCoinList);
     console.log(response.data);
-
   } catch(e) {
     console.log(e);
   }

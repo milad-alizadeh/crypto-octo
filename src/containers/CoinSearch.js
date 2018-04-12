@@ -1,26 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { chartDataReadRequest, setSelectedPrice } from 'store/actions';
-import { SearchInput } from 'components';
+import { coinListReadRequest } from 'store/actions';
+import { SearchWithSuggestion } from 'components';
 
-const SearchInputContainer = (props) => {
-  let { loading, error, coinList } = props;
+const CoinSearchContainer = (props) => {
+  let { loading, error, coinList, fetchCoinList } = props;
   return (
-    <SearchInput {
+    <SearchWithSuggestion {
       ...{
+        placeholder: 'Search for Coin',
         loading,
         error,
-        coinList,
-        setSelectedPrice: (time, price) => props.setSelectedPrice(time, price),
-        getControlData: params => props.fetchChartData(params)
+        list: coinList,
+        fetchList: () => fetchCoinList()
       }
     }
     />
   );
 };
 
-SearchInputContainer.propTypes = {
+CoinSearchContainer.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.object,
   coinList: PropTypes.array,
@@ -28,20 +28,18 @@ SearchInputContainer.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  let { loading, error, chartData, controls } = state.historicalChartData;
+  let { loading, error, coinList } = state.coinList;
   return {
     loading,
     error,
-    chartData,
-    controls
+    coinList
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchChartData: params => dispatch(chartDataReadRequest(params)),
-    setSelectedPrice: (time, price) => dispatch(setSelectedPrice(time, price))
+    fetchCoinList: () => dispatch(coinListReadRequest())
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchInputContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CoinSearchContainer);
