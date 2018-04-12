@@ -4,5 +4,7 @@ import SearchListItem from '.';
 
 storiesOf('Atom - SearchListItem', module)
   .add('default', () => (
-    <SearchListItem text="Sample Item" />
+    <SearchListItem value="sample-item">
+      Sample Item
+    </SearchListItem>
   ));

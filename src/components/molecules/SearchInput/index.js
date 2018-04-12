@@ -51,24 +51,27 @@ let SearchInputStyled = styled.div`
   `}
 `;
 
-const SearchInput = (props) => {
+const SearchInput = ({ placeholder, value, ...props }) => {
   return (
     <SearchInputStyled {...props}>
       <InputStyled
-        placeholder={props.placeholder}
-        type={props.type}
-        onInputChange={props.onInputChange}
+        placeholder={placeholder}
+        type="text"
+        value={value}
+        onInputChange={e => props.onInputChange(e.target.value)}
       />
       <Button>
-        <IconStyled icon={props.icon} onClick={props.onSubmit} />
+        <IconStyled
+          icon="magnifying-glass"
+          onClick={props.onSubmit}
+        />
       </Button>
     </SearchInputStyled>
   );
 };
 
 SearchInput.propTypes = {
-  icon: PropTypes.string.isRequired,
-  type: PropTypes.string,
+  value: PropTypes.string,
   onInputChange: PropTypes.func,
   onSubmit: PropTypes.func,
   placeholder: PropTypes.string

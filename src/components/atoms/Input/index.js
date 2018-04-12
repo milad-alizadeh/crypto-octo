@@ -8,10 +8,11 @@ const InputStyled = styled.input`
   border: .1rem solid ${({ theme }) => theme.colors.grey};
   color: ${({ theme }) => theme.colors.greyLighter};
   font-size: 1.3rem;
+  font-family: ${({ theme }) => theme.fonts.primary};
   line-height: 1;
   font-weight: 300;
   border-radius: 4.8rem;
-  padding: 1rem 1.5rem;
+  padding: 1rem 3.4rem;
   width: 100%;
 
   &::placeholder {
@@ -19,21 +20,28 @@ const InputStyled = styled.input`
   }
 
   ${breakpoint('medium')`
-    padding: 1.4rem 2.4rem;
+    padding: 1.4rem 3.4rem;
     font-size: 1.4rem;
   `}
 `;
 
-const Input = ({ onInputChange, type, placeholder }) => (
-  <InputStyled type={type} onChange={onInputChange} placeholder={placeholder} />
+const Input = ({ onInputChange, type, value, placeholder }) => (
+  <InputStyled
+    type={type}
+    value={value}
+    placeholder={placeholder}
+    onChange={onInputChange}
+  />
 );
 
 Input.defaultProps = {
-  type: 'text'
+  type: 'text',
+  value: ''
 };
 
 Input.propTypes = {
   type: PropTypes.string,
+  value: PropTypes.string,
   placeholder: PropTypes.string,
   onInputChange: PropTypes.func
 };
