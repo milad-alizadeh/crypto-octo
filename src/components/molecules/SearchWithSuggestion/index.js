@@ -49,16 +49,15 @@ class SearchWithSuggestion extends Component {
         return;
       }
 
-      this.setState({
-        currentInputValue: filteredList[highlightedIndex].label,
-        isOpen: false
-      });
+      if (filteredList[highlightedIndex].value) {
+        this.setState({
+          currentInputValue: filteredList[highlightedIndex].label,
+          isOpen: false
+        });
+      }
     },
     Escape() {
       this.setState({ isOpen: false });
-    },
-    Tab(event) {
-
     }
   }
 
@@ -118,11 +117,13 @@ class SearchWithSuggestion extends Component {
   }
 
   handleItemClick = (item) => {
-    this.props.onItemSelect(item);
-    this.setState({
-      currentInputValue: item.label,
-      isOpen: false
-    });
+    if (item.value) {
+      this.props.onItemSelect(item);
+      this.setState({
+        currentInputValue: item.label,
+        isOpen: false
+      });
+    }
   }
 
   handleListFocus = () => {
