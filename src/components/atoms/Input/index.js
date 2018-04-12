@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import breakpoint from 'styled-components-breakpoint';
 
 const InputStyled = styled.input`
-  background: ${({ theme }) => theme.colors.greyDarker};
+  background: transparent;
   border: .1rem solid ${({ theme }) => theme.colors.grey};
   color: ${({ theme }) => theme.colors.greyLighter};
   font-size: 1.3rem;

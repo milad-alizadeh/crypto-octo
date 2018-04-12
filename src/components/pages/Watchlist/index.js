@@ -1,6 +1,7 @@
 import React from 'react';
 import { WatchlistTemplate, TablePrice } from 'components';
 import io from 'socket.io-client';
+import { CoinSearch } from 'containers';
 
 //
 // const Watchlist = () => (
@@ -80,6 +81,10 @@ let tableData = [
 
 let data = {
   card1: {
+    heading: 'Search for coins',
+    component: <CoinSearch />
+  },
+  card2: {
     heading: 'Currently Held Coins',
     component: <TablePrice data={tableData} />
   }

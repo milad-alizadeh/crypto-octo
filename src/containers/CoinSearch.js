@@ -13,7 +13,8 @@ const CoinSearchContainer = (props) => {
         loading,
         error,
         list: coinList,
-        fetchList: () => fetchCoinList()
+        fetchList: () => fetchCoinList(),
+        onItemSelect: item => console.log(item)
       }
     }
     />

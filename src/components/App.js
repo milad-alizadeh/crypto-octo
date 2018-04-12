@@ -5,8 +5,8 @@ import { ThemeProvider } from 'styled-components';
 import { Dashboard, Watchlist, LayoutTemplate, Navigation } from 'components';
 
 // Styling
-import theme from './themes/default';
 import GlobalCss from './_global-css';
+import theme from './themes/default';
 
 GlobalCss();
 

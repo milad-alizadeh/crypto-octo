@@ -20,6 +20,7 @@ const SearchListWrapper = styled.div`
   max-height: 20rem;
   overflow: auto;
   border: .1rem solid ${({ theme }) => theme.colors.grey};
+  box-shadow: ${({ theme }) => theme.boxShadow};
 
   &::-webkit-scrollbar {
       -webkit-appearance: none;
@@ -46,6 +47,7 @@ class SearchInput extends Component {
 
   renderArrayList = (list) => {
     let { onItemHover, onItemClick, highlightedItem } = this.props;
+
     return list.map((item) => {
       return (
         <SearchListItemStyled

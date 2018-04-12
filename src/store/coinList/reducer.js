@@ -7,7 +7,7 @@ import {
 const initialState = {
   loading: false,
   error: null,
-  data: null
+  coinList: []
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -16,7 +16,7 @@ export default (state = initialState, { type, payload }) => {
       return { ...state, loading: true, error: null };
 
     case COIN_LIST_READ_SUCCESS:
-      return { ...state, loading: false, data: payload.data };
+      return { ...state, loading: false, coinList: payload.data };
 
     case COIN_LIST_READ_FAILED:
       return { ...state, loading: false, error: payload.error };

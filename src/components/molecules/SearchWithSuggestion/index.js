@@ -7,7 +7,7 @@ const SearchListStyled = styled(SearchList)`
   position: absolute;
   left: 2rem;
   right: 2rem;
-  top: calc(100% + 1rem);
+  top: calc(100% - .1rem);
 `;
 
 const SearchWithSuggestionStyled = styled.div`
@@ -84,7 +84,7 @@ class SearchWithSuggestion extends Component {
     this.state = {
       isOpen: false,
       highlightedIndex: null,
-      filteredList: props.list,
+      filteredList: [],
       currentInputValue: '',
       fetchRequestSent: false
     };
@@ -119,25 +119,38 @@ class SearchWithSuggestion extends Component {
     }
 
     let term = event.target.value;
-    let filteredList = this.props.list.filter((item) => {
-      let listItemLabel = item.label.toLowerCase();
-      let listItemValue = item.value.toString().toLowerCase();
-      let searchTerm = term.toLowerCase();
-      return listItemLabel.indexOf(searchTerm) > -1 || listItemValue.indexOf(searchTerm) > -1;
-    });
 
-    if (!filteredList.length) {
-      filteredList.push({
-        value: null,
-        label: 'Not found!'
+    if (term.length > 1) {
+      // Search the array for results
+      let filteredList = this.props.list.filter((item) => {
+        let listItemLabel = item.label.toLowerCase();
+        let searchTerm = term.toLowerCase();
+        return listItemLabel.indexOf(searchTerm) > -1;
+      });
+
+      // Get the first 30 results
+      filteredList = filteredList.slice(0, 30);
+
+      // If no item is found show "not found" label
+      if (!filteredList.length) {
+        filteredList.push({
+          value: null,
+          label: 'Not found!'
+        });
+      }
+
+      this.setState({
+        filteredList,
+        currentInputValue: term,
+        highlightedIndex: null
+      });
+    } else {
+      this.setState({
+        filteredList: [],
+        currentInputValue: term,
+        highlightedIndex: null
       });
     }
-
-    this.setState({
-      filteredList,
-      currentInputValue: term,
-      highlightedIndex: null
-    });
   }
 
   handleInputFocus = () => {
@@ -204,7 +217,7 @@ class SearchWithSuggestion extends Component {
           onKeyDown={this.handleKeyDown}
           onClick={this.handleInputFocus}
         />
-        { isOpen && filteredList.length > 1 &&
+        { isOpen && filteredList.length > 0 &&
           <SearchListStyled
             list={filteredList}
             onItemHover={this.handleItemHover}

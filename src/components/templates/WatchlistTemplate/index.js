@@ -6,14 +6,17 @@ import { Card } from 'components';
 
 const WatchlistTemplateStyled = styled.div`
   padding: 2rem;
+  display: grid;
+  grid-gap: 1rem;
 `;
 
 const WatchlistTemplate = ({ data }) => {
-  let { card1 } = data;
+  let { card1, card2 } = data;
 
   return (
     <WatchlistTemplateStyled>
       <Card heading={card1.heading}>{card1.component}</Card>
+      <Card heading={card2.heading}>{card2.component}</Card>
     </WatchlistTemplateStyled>
   );
 };
