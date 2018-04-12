@@ -25,25 +25,32 @@ const InputStyled = styled.input`
   `}
 `;
 
-const Input = ({ onInputChange, type, value, placeholder }) => (
-  <InputStyled
-    type={type}
-    value={value}
-    placeholder={placeholder}
-    onChange={onInputChange}
-  />
-);
+const Input = ({
+  onInputChange, onInputBlur, onInputFocus, type, value, placeholder
+}) => {
+  return (
+    <InputStyled
+      type={type}
+      value={value}
+      placeholder={placeholder}
+      onChange={onInputChange}
+      onBlur={onInputBlur}
+      onFocus={onInputFocus}
+    />
+  );
+};
 
 Input.defaultProps = {
-  type: 'text',
-  value: ''
+  type: 'text'
 };
 
 Input.propTypes = {
   type: PropTypes.string,
   value: PropTypes.string,
   placeholder: PropTypes.string,
-  onInputChange: PropTypes.func
+  onInputChange: PropTypes.func,
+  onInputBlur: PropTypes.func,
+  onInputFocus: PropTypes.func
 };
 
 export default Input;

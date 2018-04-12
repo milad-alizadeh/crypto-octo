@@ -17,15 +17,8 @@ let SearchInputStyled = styled.div`
     position: absolute;
     right: 2rem;
     top: .9rem;
-    cursor: pointer;
     background: none;
     padding: 0;
-
-    &:hover {
-      ${IconStyled} {
-        color: ${({ theme }) => theme.colors.primary};
-      }
-    }
 
     &:focus {
       outline: 0;
@@ -39,6 +32,11 @@ let SearchInputStyled = styled.div`
 
   ${InputStyled} {
     padding-right: 4rem;
+
+
+    &:focus {
+      outline: 0;
+    }
   }
 
   ${breakpoint('medium')`
@@ -51,19 +49,22 @@ let SearchInputStyled = styled.div`
   `}
 `;
 
-const SearchInput = ({ placeholder, value, ...props }) => {
+const SearchInput = ({
+  placeholder, value, onInputChange, onInputFocus, onInputBlur, ...props
+}) => {
   return (
     <SearchInputStyled {...props}>
       <InputStyled
         placeholder={placeholder}
         type="text"
         value={value}
-        onInputChange={e => props.onInputChange(e.target.value)}
+        onInputChange={onInputChange}
+        onInputFocus={onInputFocus}
+        onInputBlur={onInputBlur}
       />
       <Button>
         <IconStyled
           icon="magnifying-glass"
-          onClick={props.onSubmit}
         />
       </Button>
     </SearchInputStyled>
@@ -73,7 +74,8 @@ const SearchInput = ({ placeholder, value, ...props }) => {
 SearchInput.propTypes = {
   value: PropTypes.string,
   onInputChange: PropTypes.func,
-  onSubmit: PropTypes.func,
+  onInputFocus: PropTypes.func,
+  onInputBlur: PropTypes.func,
   placeholder: PropTypes.string
 };
 

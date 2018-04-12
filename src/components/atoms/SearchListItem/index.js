@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { applyStyleModifiers, styleModifierPropTypes } from 'styled-components-modifiers';
+
+const MODIFIER_CONFIG = {
+  highlighted: ({ theme }) => `
+    background: ${theme.colors.greyDark};
+  `
+};
 
 const SearchListItemStyled = styled.li`
   list-style: none;
@@ -11,30 +18,26 @@ const SearchListItemStyled = styled.li`
   user-select: none;
   cursor: pointer;
 
-  &:focus,
-  &:hover {
-    background: ${({ theme }) => theme.colors.greyDark};
-  }
+  ${applyStyleModifiers(MODIFIER_CONFIG)}
 `;
 
 class SearchListItem extends Component {
-  constructor(props) {
-    super(props);
-    this.onClick = this.onClick.bind(this);
+  onMouseOver = () => {
+    this.props.onItemHover(this.props.item);
   }
 
-  onClick() {
-    if (this.props.onItemClick) {
-      this.props.onItemClick(this.props.item);
-    }
+  onItemClick = () => {
+    this.props.onItemClick(this.props.item);
   }
 
   render() {
-    let { item, ...props } = this.props;
+    let { item, onItemClick, ...props } = this.props;
     return (
       <SearchListItemStyled
         {...props}
-        onClick={this.onClick}
+        onMouseOver={this.onMouseOver}
+        onFocus={this.onMouseOver}
+        onClick={this.onItemClick}
       >
         {item.label}
       </SearchListItemStyled>
@@ -44,8 +47,9 @@ class SearchListItem extends Component {
 
 SearchListItem.propTypes = {
   item: PropTypes.object,
-  children: PropTypes.node,
-  onItemClick: PropTypes.func
+  onItemHover: PropTypes.func,
+  onItemClick: PropTypes.func,
+  modifiers: styleModifierPropTypes(MODIFIER_CONFIG)
 };
 
 export default SearchListItem;

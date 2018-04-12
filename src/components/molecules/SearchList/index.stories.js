@@ -38,5 +38,6 @@ storiesOf('Molecule - SearchList', module)
   .add('default', () => (
     <SearchList
       list={list}
+      onItemSelect={action('item selected')}
     />
   ));

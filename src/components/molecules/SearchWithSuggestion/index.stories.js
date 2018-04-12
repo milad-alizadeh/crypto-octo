@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import SearchWithSuggestion from '.';
 
 const list = [
@@ -38,5 +39,6 @@ storiesOf('Molecule - SearchWithSuggestion', module)
     <SearchWithSuggestion
       list={list}
       placeholder="Search for item"
+      onItemSelect={action('item selected')}
     />
   ));

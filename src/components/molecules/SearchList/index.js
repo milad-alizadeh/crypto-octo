@@ -15,7 +15,6 @@ const SearchListStyled = styled.ul`
   }
 `;
 
-
 const SearchListWrapper = styled.div`
   max-height: 20rem;
   overflow: auto;
@@ -36,26 +35,21 @@ const SearchListWrapper = styled.div`
 class SearchInput extends Component {
   static propTypes = {
     list: PropTypes.array,
-    onItemSelect: PropTypes.func
+    onItemHover: PropTypes.func,
+    onItemClick: PropTypes.func,
+    highlightedItem: PropTypes.object
   }
 
-  constructor(props) {
-    super(props);
-    this.handleListItemClick = this.handleListItemClick.bind(this);
-    this.renderList = this.renderList.bind(this);
-  }
-
-  handleListItemClick(term) {
-    this.props.onItemSelect(term);
-  }
-
-  renderList(list) {
+  renderList = (list) => {
+    let { onItemHover, onItemClick, highlightedItem } = this.props;
     return list.map((item) => {
       return (
         <SearchListItemStyled
           key={item.value}
-          onItemClick={this.handleListItemClick}
+          onItemHover={onItemHover}
+          onItemClick={onItemClick}
           item={item}
+          modifiers={highlightedItem === item ? ['highlighted'] : []}
         />
       );
     });
@@ -65,15 +59,11 @@ class SearchInput extends Component {
     let { list, ...props } = this.props;
 
     return (
-      <div>
-        { list.length > 0 &&
-          <SearchListWrapper {...props}>
-            <SearchListStyled>
-              {this.renderList(list)}
-            </SearchListStyled>
-          </SearchListWrapper>
-        }
-      </div>
+      <SearchListWrapper {...props}>
+        <SearchListStyled>
+          {this.renderList(list)}
+        </SearchListStyled>
+      </SearchListWrapper>
     );
   }
 }
