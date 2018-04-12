@@ -18,7 +18,7 @@ theme.colors = {
   greyLighter: '#f9f9f9',
   greyLight: '#c5c5c5',
   grey: '#505050',
-  greyDark: '#333333',
+  greyDark: '#24262a',
   greyDarker: '#202226',
   greyDarkest: '#18191c',
   blackTransparent: 'rgba(0,0,0, .75)'

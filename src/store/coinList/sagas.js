@@ -11,8 +11,9 @@ function fetchCoinList() {
 function* readCoinListData() {
   try {
     let response = yield call(fetchCoinList);
+    let { BaseImageUrl, Data } = response.data;
 
-    let output = _.map(response.data.Data, value => ({
+    let output = _.map(Data, value => ({
       label: value.FullName,
       value: value.Name,
       ...value

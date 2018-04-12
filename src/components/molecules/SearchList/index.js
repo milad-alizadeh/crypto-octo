@@ -8,7 +8,7 @@ const SearchListItemStyled = styled(SearchListItem)``;
 
 const SearchListStyled = styled.ul`
   ${SearchListItemStyled} {
-    border-bottom: .1rem solid ${({ theme }) => theme.colors.grey};
+    border-bottom: .1rem solid ${({ theme }) => theme.colors.greyDark};
 
     &:last-child {
       border: 0;

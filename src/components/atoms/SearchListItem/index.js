@@ -9,6 +9,16 @@ const MODIFIER_CONFIG = {
   `
 };
 
+const ImageContainer = styled.div`
+  width: 2.4rem;
+  height: 2.4rem;
+  margin: auto 1rem auto 0;
+
+  img {
+    max-width: 100%;
+  }
+`;
+
 const SearchListItemStyled = styled.li`
   list-style: none;
   color: ${({ theme }) => theme.colors.greyLight};
@@ -17,6 +27,9 @@ const SearchListItemStyled = styled.li`
   font-size: 1.4rem;
   user-select: none;
   cursor: pointer;
+  display: flex;
+  height: 4rem;
+
 
   ${applyStyleModifiers(MODIFIER_CONFIG)}
 `;
@@ -39,6 +52,7 @@ class SearchListItem extends Component {
         onFocus={this.onMouseOver}
         onClick={this.onItemClick}
       >
+        {item.img && <ImageContainer><img src={item.img} alt="" /></ImageContainer>}
         {item.label}
       </SearchListItemStyled>
     );
