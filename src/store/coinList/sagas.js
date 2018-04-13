@@ -1,7 +1,7 @@
 import { takeLatest, fork, put, call } from 'redux-saga/effects';
 import axios from 'axios';
-import * as actions from './actions';
 import _ from 'lodash';
+import * as actions from './actions';
 
 function fetchCoinList() {
   let url = 'https://min-api.cryptocompare.com/data/all/coinlist';
@@ -11,7 +11,7 @@ function fetchCoinList() {
 function* readCoinListData() {
   try {
     let response = yield call(fetchCoinList);
-    let { BaseImageUrl, Data } = response.data;
+    let { Data } = response.data;
 
     let output = _.map(Data, value => ({
       label: value.FullName,
@@ -22,8 +22,7 @@ function* readCoinListData() {
     output = _.sortBy(output, 'FullName');
 
     yield put(actions.coinListReadSuccess(output));
-
-  } catch(e) {
+  } catch (e) {
     console.log(e);
   }
 }

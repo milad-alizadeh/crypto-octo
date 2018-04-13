@@ -19,7 +19,7 @@ const Td = styled(TableCell)`
   }
 `;
 
-const TablePriceStyled = styled(Table)``;
+const TableHoldingStyled = styled(Table)``;
 
 const renderRow = (row) => {
   let {
@@ -50,9 +50,9 @@ const renderRow = (row) => {
   );
 };
 
-const TablePrice = ({ data }) => {
+const TableHolding = ({ data }) => {
   return (
-    <TablePriceStyled
+    <TableHoldingStyled
       head={
         <Tr>
           <Td heading>Coin</Td>
@@ -64,11 +64,11 @@ const TablePrice = ({ data }) => {
       }
     >
       {data.map(row => renderRow(row))}
-    </TablePriceStyled>
+    </TableHoldingStyled>
   );
 };
 
-TablePrice.propTypes = {
+TableHolding.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     icon: PropTypes.string,
@@ -82,4 +82,4 @@ TablePrice.propTypes = {
   }))
 };
 
-export default TablePrice;
+export default TableHolding;

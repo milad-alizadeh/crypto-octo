@@ -9,6 +9,10 @@ storiesOf('Atom - SearchListItem', module)
       value="sample-item"
       onItemHover={action('hover')}
       onItemClick={action('click')}
+      item={{
+        label: 'Sample Item',
+        value: 321
+      }}
     >
       Sample Item
     </SearchListItem>

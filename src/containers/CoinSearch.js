@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { coinListReadRequest } from 'store/actions';
+import { coinListReadRequest, watchlistAddRequest } from 'store/actions';
 import { SearchWithSuggestion } from 'components';
 
 const CoinSearchContainer = (props) => {
-  let { loading, error, coinList, fetchCoinList } = props;
+  let { loading, error, coinList, fetchCoinList, addToWatchlist } = props;
   return (
     <SearchWithSuggestion {
       ...{
@@ -14,7 +14,7 @@ const CoinSearchContainer = (props) => {
         error,
         list: coinList,
         fetchList: () => fetchCoinList(),
-        onItemSelect: item => console.log(item)
+        onItemSelect: params => addToWatchlist(params)
       }
     }
     />
@@ -25,7 +25,8 @@ CoinSearchContainer.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.object,
   coinList: PropTypes.array,
-  fetchCoinList: PropTypes.func
+  fetchCoinList: PropTypes.func,
+  addToWatchlist: PropTypes.func
 };
 
 const mapStateToProps = (state) => {
@@ -39,7 +40,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchCoinList: () => dispatch(coinListReadRequest())
+    fetchCoinList: () => dispatch(coinListReadRequest()),
+    addToWatchlist: params => dispatch(watchlistAddRequest(params))
   };
 };
 

@@ -4,10 +4,22 @@ import styled from 'styled-components';
 import breakpoint from 'styled-components-breakpoint';
 import { Card } from 'components';
 
+const LargeCard = styled(Card)`
+
+`;
+
 const WatchlistTemplateStyled = styled.div`
   padding: 2rem;
   display: grid;
   grid-gap: 1rem;
+`;
+
+const SmallCard = styled(Card)`
+  background: ${({ theme }) => theme.colors.greyDark};
+${'' /*
+  @media (min-width: 620px) {
+    grid-column: span 1;
+  } */}
 `;
 
 const WatchlistTemplate = ({ data }) => {
@@ -15,8 +27,8 @@ const WatchlistTemplate = ({ data }) => {
 
   return (
     <WatchlistTemplateStyled>
-      <Card heading={card1.heading}>{card1.component}</Card>
-      <Card heading={card2.heading}>{card2.component}</Card>
+      <SmallCard heading={card1.heading}>{card1.component}</SmallCard>
+      <LargeCard heading={card2.heading}>{card2.component}</LargeCard>
     </WatchlistTemplateStyled>
   );
 };

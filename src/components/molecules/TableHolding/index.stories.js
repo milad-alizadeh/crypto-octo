@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import PriceTable from '.';
+import TableHolding from '.';
 
 let data = [
   {
@@ -39,7 +39,7 @@ let data = [
 ];
 
 
-storiesOf('Molecule - Table--Price', module)
+storiesOf('Molecule - Table--Holding', module)
   .add('default', () => (
-    <PriceTable data={data} />
+    <TableHolding data={data} />
   ));

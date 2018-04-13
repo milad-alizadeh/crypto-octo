@@ -64,7 +64,7 @@ class SearchWithSuggestion extends Component {
       }
 
       // Select the highlighted index and fill the input value with it
-      if (filteredList[highlightedIndex].value) {
+      if (filteredList[highlightedIndex]) {
         this.props.onItemSelect(filteredList[highlightedIndex]);
         this.setState({
           currentInputValue: filteredList[highlightedIndex].label,
