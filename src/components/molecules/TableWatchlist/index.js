@@ -1,12 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { TableCell, TableRow, Table } from 'components';
+import { TableCell, TableRow, Table, LineChart } from 'components';
+import _ from 'lodash';
+
+const setColor = ({ theme, flag }) => {
+  let { colors } = theme;
+
+  switch (flag) {
+    case 1:
+      return colors.success;
+    case 2:
+      return colors.disabled;
+    default:
+      return colors.greyLight;
+  }
+};
 
 const Tr = styled(TableRow)``;
 const Td = styled(TableCell)`
   width: 20%;
   vertical-align: middle;
+  color: ${props => setColor(props)};
 
   > div {
     display: flex;
@@ -19,67 +34,49 @@ const Td = styled(TableCell)`
   }
 `;
 
-const TableHoldingStyled = styled(Table)``;
+const TableWatchlistStyled = styled(Table)``;
 
-const renderRow = (row) => {
-  let {
-    name,
-    icon,
-    price,
-    priceFlag,
-    totalValue,
-    profitLoss,
-    profitLossFlag,
-    change24,
-    change24Flag
-  } = row;
+const renderList = (list) => {
+  return _.map(list, (value, key) => {
+    let { price, marketCap, changePct24h, flag, img, coinName, chartData } = value;
 
-  return (
-    <Tr key={name}>
-      <Td key={name}>
-        <div>
-          <img src={icon} alt="" />
-          {name}
-        </div>
-      </Td>
-      <Td key={price} flag={priceFlag}>{price}</Td>
-      <Td key={totalValue}>{totalValue}</Td>
-      <Td key={profitLoss} flag={profitLossFlag}>{profitLoss}</Td>
-      <Td key={change24} flag={change24Flag}>{change24}</Td>
-    </Tr>
-  );
+    return (
+      <Tr key={key}>
+        <Td key={coinName}>
+          <div>
+            <img src={img} alt="" />
+            {coinName}
+          </div>
+        </Td>
+        <Td flag={flag}>{price}</Td>
+        <Td>{marketCap}</Td>
+        <Td flag={flag}>{changePct24h}%</Td>
+        <Td></Td>
+      </Tr>
+    );
+  });
 };
 
-const TableHolding = ({ data }) => {
+const TableWatchlist = ({ data }) => {
   return (
-    <TableHoldingStyled
+    <TableWatchlistStyled
       head={
         <Tr>
           <Td heading>Coin</Td>
           <Td heading>Price</Td>
-          <Td heading>Total Value</Td>
-          <Td heading>Profit/Loss</Td>
+          <Td heading>Market Cap</Td>
           <Td heading>Change 24h</Td>
+          <Td heading>Price Chart (7d)</Td>
         </Tr>
       }
     >
-      {data.map(row => renderRow(row))}
-    </TableHoldingStyled>
+      {renderList(data)}
+    </TableWatchlistStyled>
   );
 };
 
-TableHolding.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    icon: PropTypes.string,
-    price: PropTypes.string,
-    priceFlag: PropTypes.number,
-    totalValue: PropTypes.string,
-    profitLoss: PropTypes.string,
-    profitLossFlag: PropTypes.number,
-    change24: PropTypes.string,
-    change24Flag: PropTypes.number
-  }))
+TableWatchlist.propTypes = {
+  data: PropTypes.object
 };
 
-export default TableHolding;
+export default TableWatchlist;

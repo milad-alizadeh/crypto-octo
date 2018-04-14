@@ -15,7 +15,7 @@ const LayoutTemplateStyled = styled.div`
     "footer";
   ${breakpoint('xlarge')`
     grid-template-rows: 5rem 1fr 5rem;
-    grid-template-columns: 18rem 1fr;
+    grid-template-columns: 14rem 1fr;
     grid-template-areas:
       "header header"
       "nav main"

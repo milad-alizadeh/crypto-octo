@@ -12,11 +12,12 @@ function fetchChartData(params) {
 
 function* readChartData({ payload: { params } }) {
   try {
-    let response = yield call(fetchChartData, params.apiParams);
+    let response = yield call(fetchChartData, params);
 
     if (response.data.Response === 'Success') {
-      let data = transformData(response.data.Data, params.apiParams);
+      let data = transformData(response.data.Data, params);
       yield put(actions.chartDataReadSuccess(data));
+
       // Set the latest time and price
       yield put(actions.setSelectedPrice(data[data.length - 1].x, data[data.length - 1].y));
     } else {

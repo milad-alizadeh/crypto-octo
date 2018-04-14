@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 
 const styles = css`
   text-align: left;
-  padding: 1rem;
+  padding: 1rem 0;
   color: ${({ theme }) => theme.colors.greyLight};
   font-family: ${({ theme }) => theme.fonts.primary};
 `;
