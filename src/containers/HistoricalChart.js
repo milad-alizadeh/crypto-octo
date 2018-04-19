@@ -5,7 +5,8 @@ import { chartDataReadRequest, setSelectedPrice } from 'store/actions';
 import { HistoricalChart } from 'components';
 
 const HistoricalChartContainer = (props) => {
-  let { loading, error, chartData, controls } = props;
+  let { loading, error, chartData, controls, coinSymbol } = props;
+
   return (
     <HistoricalChart {
       ...{
@@ -14,7 +15,7 @@ const HistoricalChartContainer = (props) => {
         chartData,
         controls,
         setSelectedPrice: (time, price) => props.setSelectedPrice(time, price),
-        getControlData: params => props.fetchChartData(params)
+        fetchChartData: params => props.fetchChartData({ ...params, coinSymbol })
       }
     }
     />
@@ -22,6 +23,7 @@ const HistoricalChartContainer = (props) => {
 };
 
 HistoricalChartContainer.propTypes = {
+  coinSymbol: PropTypes.string.isRequired,
   loading: PropTypes.bool,
   error: PropTypes.object,
   chartData: PropTypes.array,
@@ -34,8 +36,22 @@ HistoricalChartContainer.propTypes = {
   setSelectedPrice: PropTypes.func
 };
 
-const mapStateToProps = (state) => {
-  let { loading, error, chartData, controls } = state.historicalChartData;
+const mapStateToProps = (state, ownProps) => {
+  let { controls, full } = state.historicalChartData;
+
+  if (!full[ownProps.coinSymbol]) {
+    return {
+      loading: false,
+      error: null,
+      chartData: null,
+      controls
+    };
+  }
+
+  console.log(ownProps);
+
+  let { loading, error, chartData } = full[ownProps.coinSymbol][ownProps.fetchChartData.arguments.label];
+
   return {
     loading,
     error,

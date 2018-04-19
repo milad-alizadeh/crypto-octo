@@ -10,24 +10,25 @@ export const chartDataReadRequest = params => (
   }
 );
 
-export const chartDataReadSuccess = data => (
+export const chartDataReadSuccess = (params, data) => (
   {
     type: CHART_DATA_READ_SUCCESS,
-    payload: { data }
+    payload: { params, data }
   }
 );
 
-export const chartDataReadFailed = error => (
+export const chartDataReadFailed = (params, error) => (
   {
     type: CHART_DATA_READ_FAILED,
-    payload: { error }
+    payload: { params, error }
   }
 );
 
-export const setSelectedPrice = (selectedTime, selectedPrice) => (
+export const setSelectedPrice = (params, selectedTime, selectedPrice) => (
   {
     type: SET_SELECTED_PRICE,
     payload: {
+      params,
       selectedTime,
       selectedPrice
     }

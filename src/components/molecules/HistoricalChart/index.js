@@ -62,7 +62,7 @@ class HistoricalChart extends Component {
     chartData: PropTypes.array,
     loading: PropTypes.bool,
     error: PropTypes.object,
-    getControlData: PropTypes.func,
+    fetchChartData: PropTypes.func,
     setSelectedPrice: PropTypes.func,
     controls: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -104,9 +104,8 @@ class HistoricalChart extends Component {
       displayChart: false
     });
 
-    // Set the latest time and price
-    if (this.props.getControlData) {
-      this.props.getControlData(activeControl);
+    if (this.props.fetchChartData) {
+      this.props.fetchChartData(activeControl.apiParams);
     }
   }
 
@@ -119,7 +118,6 @@ class HistoricalChart extends Component {
   /**
    * Create Chart data based on the current props
    * @param  {Array} chartData
-   * @param  {Array} controls
    */
   createChartData({ chartData }) {
     // Combine data and active control options for the chart

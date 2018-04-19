@@ -24,7 +24,7 @@ let data = {
   },
   card5: {
     heading: 'Portfolio Performance',
-    component: <HistoricalChart />
+    component: <HistoricalChart coinSymbol="BTC"/>
   },
   card6: {
     heading: 'Distribution Chart',

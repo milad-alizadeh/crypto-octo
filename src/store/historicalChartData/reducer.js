@@ -6,17 +6,14 @@ import {
 } from './actions';
 
 const initialState = {
-  loading: false,
-  error: null,
-  data: null,
-  selectedPrice: null,
-  selectedTime: null,
+  basic: {},
   controls: [
     {
       label: '1d',
       timeUnit: 'minute',
       displayFormat: 'h:mm a',
       apiParams: {
+        label: 'oneDay',
         timeUnit: 'minute',
         limit: 288,
         aggregate: 5
@@ -27,6 +24,7 @@ const initialState = {
       timeUnit: 'day',
       displayFormat: 'dddd',
       apiParams: {
+        label: 'threeDays',
         timeUnit: 'hour',
         limit: 72,
         aggregate: 1
@@ -37,6 +35,7 @@ const initialState = {
       timeUnit: 'day',
       displayFormat: 'MMM D',
       apiParams: {
+        label: 'oneWeek',
         timeUnit: 'hour',
         limit: 168,
         aggregate: 1
@@ -47,6 +46,7 @@ const initialState = {
       timeUnit: 'day',
       displayFormat: 'MMM D',
       apiParams: {
+        label: 'oneMonth',
         timeUnit: 'hour',
         limit: 144,
         aggregate: 5
@@ -57,6 +57,7 @@ const initialState = {
       timeUnit: 'day',
       displayFormat: 'MMM D',
       apiParams: {
+        label: 'threeMonths',
         timeUnit: 'day',
         limit: 90,
         aggregate: 1
@@ -67,6 +68,7 @@ const initialState = {
       timeUnit: 'month',
       displayFormat: 'MMM',
       apiParams: {
+        label: '3m',
         timeUnit: 'day',
         limit: 180,
         aggregate: 1
@@ -77,28 +79,67 @@ const initialState = {
       timeUnit: 'month',
       displayFormat: 'MMM YYYY',
       apiParams: {
+        label: '1y',
         timeUnit: 'day',
         limit: 365,
         aggregate: 2
       }
     }
-  ]
+  ],
+  full: {
+  }
 };
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case CHART_DATA_READ_REQUEST:
-      return { ...state, loading: true, chartData: null, error: null };
+      return {
+        ...state,
+        full: {
+          [payload.params.coinSymbol]: {
+            [payload.params.label]: {
+              loading: true,
+              error: null,
+              chartData: null
+            }
+          }
+        }
+      };
 
     case CHART_DATA_READ_SUCCESS:
-      return { ...state, loading: false, chartData: payload.data, error: null };
+      return {
+        ...state,
+        full: {
+          [payload.params.coinSymbol]: {
+            [payload.params.label]: {
+              loading: false,
+              error: null,
+              chartData: payload.data
+            }
+          }
+        }
+      };
 
     case CHART_DATA_READ_FAILED:
-      return { ...state, loading: false, chartData: null, error: payload.error };
+      return {
+        ...state,
+        full: {
+          [payload.params.coinSymbol]: {
+            [payload.params.label]: {
+              loading: false,
+              error: payload.error,
+              chartData: null
+            }
+          }
+        }
+      };
 
-    case SET_SELECTED_PRICE:
-      return { ...state, selectedTime: payload.selectedTime, selectedPrice: payload.selectedPrice };
-
+    case SET_SELECTED_PRICE: {
+      let newState = { ...state };
+      newState.full[payload.params.coinSymbol][payload.params.label].selectedTime = payload.selectedTime;
+      newState.full[payload.params.coinSymbol][payload.params.label].selectedPrice = payload.selectedPrice;
+      return newState;
+    }
     default:
       return state;
   }

@@ -111,20 +111,7 @@ export default `
         }
     }
 
-    [type='color'],
-    [type='date'],
-    [type='datetime'],
-    [type='datetime-local'],
-    [type='email'],
-    [type='month'],
-    [type='number'],
-    [type='password'],
-    [type='search'],
-    [type='tel'],
-    [type='text'],
-    [type='time'],
-    [type='url'],
-    [type='week'],
+    input,
     textarea,
     select {
         -moz-appearance: none;
