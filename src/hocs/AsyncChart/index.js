@@ -8,16 +8,22 @@ export default function (ChartComponent) {
   return class extends Component {
     static propTypes = {
       coinSymbol: PropTypes.string.isRequired,
-      toCurrency: PropTypes.string.isRequired
+      toCurrency: PropTypes.string.isRequired,
+      timeRange: PropTypes.string
+    }
+
+    static defaultProps = {
+      timeRange: '1w'
     }
 
     constructor(props) {
       super(props);
 
       this.state = {
-        data: null,
-        timeRange: '1w',
-        apiParams: null
+        chartData: null,
+        timeRange: this.props.timeRange,
+        apiParams: null,
+        loading: false
       };
     }
 
@@ -26,20 +32,36 @@ export default function (ChartComponent) {
     }
 
     componentWillReceiveProps(nextProps) {
-      if (nextProps.coinSymbol !== this.props.coinSymbol || nextProps.toCurrency !== this.props.toCurrency) {
+      if (nextProps.timeRange !== this.props.timeRange) {
+        this.setState({
+          timeRange: nextProps.timeRange
+        }, () => {
+          this.getData(nextProps);
+        });
+      } else {
         this.getData(nextProps);
       }
     }
 
     getData({ coinSymbol, toCurrency }) {
       // Async Call
+      let { timeRange } = this.state;
       let { params } = this.getTimeRangeData(this.state.timeRange);
       params.fsym = coinSymbol;
       params.tsym = toCurrency;
 
+
+      this.setState({ loading: true });
+
       this.fetchChartData(params)
         .then((response) => {
-          this.setState({ data: this.transformData(response.data.Data) });
+          this.setState({
+            chartData: {
+              data: this.transformData(response.data.Data),
+              ...this.getTimeRangeData(timeRange).timeFormat
+            },
+            loading: false
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -161,16 +183,11 @@ export default function (ChartComponent) {
     }
 
     render() {
-      let { data } = this.state;
+      let { loading, chartData } = this.state;
 
-      if (!data) {
+      if (loading) {
         return (<div>Loading</div>);
       }
-
-      let chartData = {
-        data,
-        ...this.getTimeRangeData(this.state.timeRange).timeFormat
-      };
 
       return (
         <ChartComponent

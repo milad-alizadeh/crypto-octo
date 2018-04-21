@@ -35,7 +35,7 @@ let Chart = AsyncChart(LineChart);
 
 const HomePage = () => {
   return (
-    <Chart coinSymbol="BTC" toCurrency="GBP" />
+    <Chart coinSymbol="BTC" toCurrency="USD" timeRange="1m" basic />
   );
 };
 

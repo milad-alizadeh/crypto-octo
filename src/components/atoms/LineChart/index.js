@@ -112,6 +112,7 @@ class LineChart extends Component {
   updateChart(nextProps) {
     let { chart } = this.state;
 
+    console.log(nextProps, 'blabla');
     if (nextProps.chartData !== this.props.chartData) {
       // Update Dataset
       chart.config.data.datasets[0].data = nextProps.chartData.data;
