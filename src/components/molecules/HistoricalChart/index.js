@@ -138,6 +138,16 @@ class HistoricalChart extends Component {
     }
   }
 
+  // setControls(time) {
+  //   switch (time) {
+  //     case '1y':
+  //
+  //       break;
+  //     default:
+  //
+  //   }
+  // }
+
   render() {
     let { loading, error, controls } = this.props;
     let { currentChartData, displayChart, animationDuration } = this.state;

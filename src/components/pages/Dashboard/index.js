@@ -1,7 +1,7 @@
 // https://github.com/diegohaz/arc/wiki/Atomic-Design
 import React from 'react';
-import { HistoricalChart } from 'containers';
-import { Text, DashboardTemplate } from 'components';
+import { AsyncChart } from 'hocs';
+import { Text, DashboardTemplate, HistoricalChart, LineChart } from 'components';
 
 let data = {
   footer: '',
@@ -23,8 +23,7 @@ let data = {
     component: <Text size="medium">$36,500</Text>
   },
   card5: {
-    heading: 'Portfolio Performance',
-    component: <HistoricalChart coinSymbol="BTC"/>
+    heading: 'Portfolio Performance'
   },
   card6: {
     heading: 'Distribution Chart',
@@ -32,11 +31,11 @@ let data = {
   }
 };
 
+let Chart = AsyncChart(LineChart);
+
 const HomePage = () => {
   return (
-    <DashboardTemplate
-      data={data}
-    />
+    <Chart coinSymbol="BTC" toCurrency="GBP" />
   );
 };
 

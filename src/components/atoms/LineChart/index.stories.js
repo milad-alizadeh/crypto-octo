@@ -156,12 +156,7 @@ let chartData = {
   ],
   label: '1d',
   timeUnit: 'minute',
-  displayFormat: 'h:mm a',
-  apiParams: {
-    timeUnit: 'minute',
-    limit: 288,
-    aggregate: 5
-  }
+  displayFormat: 'h:mm a'
 };
 
 storiesOf('Atom - LineChart', module)

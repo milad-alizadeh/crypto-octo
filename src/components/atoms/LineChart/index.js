@@ -36,6 +36,10 @@ class LineChart extends Component {
     this.createChart(ctx, this.getChartOptions(this.props), chartData.data, color);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.updateChart(nextProps);
+  }
+
   /**
    * Get Chart options based on the passed props
    * @param  {Obj} props props

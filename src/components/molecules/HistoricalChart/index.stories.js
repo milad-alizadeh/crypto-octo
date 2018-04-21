@@ -158,32 +158,17 @@ let controls = [
   {
     label: '1d',
     timeUnit: 'minute',
-    displayFormat: 'h:mm a',
-    apiParams: {
-      timeUnit: 'minute',
-      limit: 288,
-      aggregate: 5
-    }
+    displayFormat: 'h:mm a'
   },
   {
     label: '3d',
     timeUnit: 'day',
-    displayFormat: 'dddd',
-    apiParams: {
-      timeUnit: 'hour',
-      limit: 72,
-      aggregate: 1
-    }
+    displayFormat: 'dddd'
   },
   {
     label: '1w',
     timeUnit: 'day',
-    displayFormat: 'MMM D',
-    apiParams: {
-      timeUnit: 'hour',
-      limit: 168,
-      aggregate: 1
-    }
+    displayFormat: 'MMM D'
   }
 ];
 

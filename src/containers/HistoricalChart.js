@@ -48,8 +48,6 @@ const mapStateToProps = (state, ownProps) => {
     };
   }
 
-  console.log(ownProps);
-
   let { loading, error, chartData } = full[ownProps.coinSymbol][ownProps.fetchChartData.arguments.label];
 
   return {

@@ -54,7 +54,7 @@ let tableData = [
 ];
 
 
-storiesOf('Molecule - Table--Holding', module)
-  .add('default', () => (
-    <TableHolding data={data} />
-  ));
+// storiesOf('Molecule - Table--Holding', module)
+//   .add('default', () => (
+//     <TableHolding data={data} />
+//   ));
