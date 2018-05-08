@@ -7,7 +7,7 @@ import { Text } from 'components';
 
 const ChartInfoStyled = styled.div``;
 
-const SelectedTime = styled(Text)`
+const Time = styled(Text)`
   display: block;
 
   @media (min-width: 540px) {
@@ -15,7 +15,7 @@ const SelectedTime = styled(Text)`
   }
 `;
 
-const SelectedPrice = styled(Text)`
+const Price = styled(Text)`
   margin-bottom: 1rem;
   display: block;
 `;
@@ -28,20 +28,22 @@ const formatTime = (time, format) => {
   return moment(time).format(format);
 };
 
-const ChartInfo = ({ selectedTime, selectedPrice }) => (
+const ChartInfo = ({ time, price, currencySymbol, locale }) => (
   <ChartInfoStyled>
-    { selectedTime && selectedPrice &&
+    { time && price &&
       <div>
-        <SelectedPrice color="primary" size="large" fontWeight="500">{formatCurrency(selectedPrice, '$', 'en-US')}</SelectedPrice>
-        <SelectedTime color="greyLight" fontWeight="500">{formatTime(selectedTime, 'MMMM Do YYYY, h:mm a')}</SelectedTime>
+        <Price color="primary" size="large" fontWeight="500">{formatCurrency(price, currencySymbol, locale)}</Price>
+        <Time color="greyLight" fontWeight="500">{formatTime(time, 'MMMM Do YYYY, h:mm a')}</Time>
       </div>
     }
   </ChartInfoStyled>
 );
 
 ChartInfo.propTypes = {
-  selectedTime: PropTypes.string,
-  selectedPrice: PropTypes.number
+  time: PropTypes.string,
+  price: PropTypes.number,
+  currencySymbol: PropTypes.string,
+  locale: PropTypes.string
 };
 
 export default ChartInfo;

@@ -27,8 +27,8 @@ class ChartControls extends Component {
     activeControl: PropTypes.string
   }
 
-  onClick(activeControl) {
-    this.props.onControlClick(activeControl);
+  onClick(control) {
+    this.props.onControlClick(control);
   }
 
   renderControls(activeControl, controls) {

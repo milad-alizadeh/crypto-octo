@@ -7,9 +7,10 @@ import _ from 'lodash';
 export default function (ChartComponent) {
   return class extends Component {
     static propTypes = {
-      coinSymbol: PropTypes.string.isRequired,
+      coinName: PropTypes.string.isRequired,
       toCurrency: PropTypes.string.isRequired,
-      timeRange: PropTypes.string
+      timeRange: PropTypes.string,
+      controls: PropTypes.array
     }
 
     static defaultProps = {
@@ -19,52 +20,65 @@ export default function (ChartComponent) {
     constructor(props) {
       super(props);
 
+      let { controls, timeRange } = props;
+
       this.state = {
         chartData: null,
-        timeRange: this.props.timeRange,
+        timeFormat: null,
         apiParams: null,
-        loading: false
+        loading: false,
+        error: null,
+        activeControl: controls && controls.length ? controls[0] : timeRange
       };
     }
 
     componentWillMount() {
-      this.getData(this.props);
+      let { coinName, toCurrency } = this.props;
+      let { activeControl } = this.state;
+
+      this.getData(coinName, toCurrency, activeControl);
     }
 
     componentWillReceiveProps(nextProps) {
-      if (nextProps.timeRange !== this.props.timeRange) {
-        this.setState({
-          timeRange: nextProps.timeRange
-        }, () => {
-          this.getData(nextProps);
-        });
-      } else {
-        this.getData(nextProps);
-      }
+      // if (nextProps.timeRange !== this.props.timeRange) {
+      //   this.setState({
+      //     timeRange: nextProps.timeRange
+      //   }, () => {
+      //     this.getData(nextProps);
+      //   });
+      // } else {
+      //   this.getData(nextProps);
+      // }
     }
 
-    getData({ coinSymbol, toCurrency }) {
-      // Async Call
-      let { timeRange } = this.state;
-      let { params } = this.getTimeRangeData(this.state.timeRange);
-      params.fsym = coinSymbol;
-      params.tsym = toCurrency;
+    setNewTimeRange = (timeRange) => {
+      let { coinName, toCurrency } = this.props;
 
+      this.setState({ activeControl: timeRange }, () => {
+        this.getData(coinName, toCurrency, timeRange);
+      });
+    }
+
+    getData(coinName, toCurrency, currentTimeRange) {
+      let { params } = this.getTimeRangeData(currentTimeRange);
+      params.fsym = coinName;
+      params.tsym = toCurrency;
 
       this.setState({ loading: true });
 
       this.fetchChartData(params)
         .then((response) => {
           this.setState({
-            chartData: {
-              data: this.transformData(response.data.Data),
-              ...this.getTimeRangeData(timeRange).timeFormat
-            },
+            chartData: this.transformData(response.data.Data),
+            timeFormat: this.getTimeRangeData(currentTimeRange).timeFormat,
             loading: false
           });
         })
         .catch((error) => {
-          console.log(error);
+          this.setState({
+            error,
+            loading: false
+          });
         });
     }
 
@@ -183,16 +197,17 @@ export default function (ChartComponent) {
     }
 
     render() {
-      let { loading, chartData } = this.state;
-
-      if (loading) {
-        return (<div>Loading</div>);
-      }
+      let { loading, chartData, timeFormat, activeControl, error } = this.state;
 
       return (
         <ChartComponent
           {...this.props}
           chartData={chartData}
+          timeFormat={timeFormat}
+          onControlClick={this.setNewTimeRange}
+          loading={loading}
+          error={error}
+          activeControl={activeControl}
         />
       );
     }

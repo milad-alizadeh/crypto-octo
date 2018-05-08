@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Spinner, Fade, Heading, ChartControls, LineChart } from 'components';
-import { ChartInfo } from 'containers';
+import { Spinner, Fade, Heading, LineChart, ChartInfo } from 'components';
 import styled from 'styled-components';
 import breakpoint from 'styled-components-breakpoint';
-import theme from '../../themes/default';
+import ChartControls from './index2';
 
 const HistoricalChartStyled = styled.div``;
 
@@ -62,31 +61,23 @@ class HistoricalChart extends Component {
     chartData: PropTypes.array,
     loading: PropTypes.bool,
     error: PropTypes.object,
-    fetchChartData: PropTypes.func,
+    timeFormat: PropTypes.object,
+    onControlClick: PropTypes.func,
     setSelectedPrice: PropTypes.func,
-    controls: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      timeUnit: PropTypes.string.isRequired,
-      displayFormat: PropTypes.string.isRequired
-    }))
+    controls: PropTypes.arrayOf(PropTypes.string),
+    color: PropTypes.string,
+    activeControl: PropTypes.string
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      activeControl: null,
       displayChart: false,
-      animationDuration: 200,
-      currentChartData: {}
+      animationDuration: 400,
+      selectedTime: null,
+      selectedPrice: null
     };
-
-    this.onSetActiveControl = this.onSetActiveControl.bind(this);
-    this.onTooltipChange = this.onTooltipChange.bind(this);
-  }
-
-  componentDidMount() {
-    this.createChartData(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -98,72 +89,58 @@ class HistoricalChart extends Component {
     this.timeout = 0;
   }
 
-  onSetActiveControl(activeControl) {
+  onControlClick = (activeControl) => {
+    this.props.onControlClick(activeControl);
+    this.setState({ displayChart: false });
+  }
+
+  onTooltipChange = (time, price) => {
     this.setState({
-      activeControl,
-      displayChart: false
+      selectedTime: time,
+      selectedPrice: price
     });
-
-    if (this.props.fetchChartData) {
-      this.props.fetchChartData(activeControl.apiParams);
-    }
+    // console.log(time, price);
+    // if (this.props.setSelectedPrice) {
+    //   this.props.setSelectedPrice(time, price);
+    // }
   }
-
-  onTooltipChange(time, price) {
-    if (this.props.setSelectedPrice) {
-      this.props.setSelectedPrice(time, price);
-    }
-  }
-
-  /**
-   * Create Chart data based on the current props
-   * @param  {Array} chartData
-   */
+  //
+  // /**
+  //  * Create Chart data based on the current props
+  //  * @param  {Array} chartData
+  //  */
   createChartData({ chartData }) {
     // Combine data and active control options for the chart
     if (chartData && chartData.length) {
-      this.setState({
-        currentChartData: {
-          data: chartData,
-          ...this.state.activeControl
-        }
-      });
-
       // Rerender chart after the transition period is over
       this.timeout = setTimeout(() => {
-        this.setState({
-          displayChart: true
-        });
-      }, this.state.animationDuration);
+        this.setState({ displayChart: true });
+      }, this.state.animationDuration * 1.2);
     }
   }
 
-  // setControls(time) {
-  //   switch (time) {
-  //     case '1y':
-  //
-  //       break;
-  //     default:
-  //
-  //   }
-  // }
-
   render() {
-    let { loading, error, controls } = this.props;
-    let { currentChartData, displayChart, animationDuration } = this.state;
+    let { loading, error, controls, timeFormat, chartData, color, activeControl } = this.props;
+    let { displayChart, animationDuration, selectedTime, selectedPrice } = this.state;
 
     return (
       <HistoricalChartStyled {...this.props} >
         <Header>
-          <ChartInfo />
+          <ChartInfo
+            time={selectedTime}
+            price={selectedPrice}
+            currencySymbol="$"
+            locale="en-US"
+          />
           <ChartControls
             controls={controls}
-            setActiveControl={this.onSetActiveControl}
+            onControlClick={this.onControlClick}
+            activeControl={activeControl}
           />
         </Header>
         <Content>
           {error &&
-            <Heading color="secondary" level={3}>Oops! something went wrong. Please refresh your page and try again</Heading>
+            <Heading color="disabled" level={3}>Oops! something went wrong. Please refresh the page and try again</Heading>
           }
 
           {!error &&
@@ -176,8 +153,9 @@ class HistoricalChart extends Component {
 
               <Fade timeout={animationDuration} in={displayChart}>
                 <LineChartStyled
-                  chartData={currentChartData}
-                  color={theme.colors.primary}
+                  chartData={chartData}
+                  timeFormat={timeFormat}
+                  color={color}
                   onTooltipChange={this.onTooltipChange}
                 />
               </Fade>

@@ -1,9 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import moment from 'moment';
 import HistoricalChart from '.';
 
-let data = [
+let chartData = [
   {
     x: moment.unix(1522360800).toISOString(),
     y: 7191.57
@@ -154,30 +155,21 @@ let data = [
   }
 ];
 
-let controls = [
-  {
-    label: '1d',
-    timeUnit: 'minute',
-    displayFormat: 'h:mm a'
-  },
-  {
-    label: '3d',
-    timeUnit: 'day',
-    displayFormat: 'dddd'
-  },
-  {
-    label: '1w',
-    timeUnit: 'day',
-    displayFormat: 'MMM D'
-  }
-];
+let controls = ['1d', '3d', '1w'];
+
+let timeFormat = {
+  timeUnit: 'minute',
+  displayFormat: 'h:mm a'
+};
 
 storiesOf('Molecule - HistoricalChart', module)
   .add('default', () => (
     <div>
       <HistoricalChart
-        chartData={data}
+        chartData={chartData}
+        timeFormat={timeFormat}
         controls={controls}
+        onActiveControlChange={action('active control changed')}
       />
     </div>
   ));

@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { TableCell, TableRow, Table, LineChart } from 'components';
+import { AsyncChart } from 'hocs';
 import _ from 'lodash';
+import theme from '../../themes/default';
+
+const Chart = AsyncChart(LineChart);
 
 const setColor = ({ theme, flag }) => {
   let { colors } = theme;
@@ -38,7 +42,7 @@ const TableWatchlistStyled = styled(Table)``;
 
 const renderList = (list) => {
   return _.map(list, (value, key) => {
-    let { price, marketCap, changePct24h, flag, img, coinName, chartData } = value;
+    let { price, marketCap, changePct24h, flag, img, coinName } = value;
 
     return (
       <Tr key={key}>
@@ -51,7 +55,14 @@ const renderList = (list) => {
         <Td flag={flag}>{price}</Td>
         <Td>{marketCap}</Td>
         <Td flag={flag}>{changePct24h}%</Td>
-        <Td></Td>
+        <Td>
+          <Chart
+            coinName={key}
+            toCurrency="USD"
+            timeRange="1w"
+            color={flag === 1 ? theme.colors.success : theme.colors.disabled}
+          />
+        </Td>
       </Tr>
     );
   });

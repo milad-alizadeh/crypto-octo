@@ -12,8 +12,8 @@ const LineChartStyled = styled.div``;
 
 class LineChart extends Component {
   static propTypes = {
-    chartData: PropTypes.shape({
-      data: PropTypes.array,
+    chartData: PropTypes.array,
+    timeFormat: PropTypes.shape({
       timeUnit: PropTypes.string,
       displayFormat: PropTypes.string
     }),
@@ -33,11 +33,11 @@ class LineChart extends Component {
     let ctx = this.canvas.getContext('2d');
     let { color, chartData } = this.props;
 
-    this.createChart(ctx, this.getChartOptions(this.props), chartData.data, color);
+    this.createChart(ctx, this.getChartOptions(this.props), chartData, color);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.updateChart(nextProps);
+    // this.updateChart(nextProps);
   }
 
   /**
@@ -46,8 +46,8 @@ class LineChart extends Component {
    * @return {Obj} chart options
    */
   getChartOptions(props) {
-    let { onTooltipChange } = props;
-    let { timeUnit, displayFormat, data } = props.chartData;
+    let { onTooltipChange, chartData, timeFormat } = props;
+    let { timeUnit, displayFormat } = timeFormat;
 
     // Tooltip callbacks - used to broadcast tooltip data to another component
     chartOptions.tooltips.callbacks = {
@@ -81,7 +81,7 @@ class LineChart extends Component {
           type: 'line',
           mode: 'horizontal',
           scaleID: 'y-axis-0',
-          value: this.getHighestValue(data),
+          value: this.getHighestValue(chartData),
           borderColor: '#505050',
           borderWidth: 1,
           borderDash: [2, 6]
@@ -112,7 +112,6 @@ class LineChart extends Component {
   updateChart(nextProps) {
     let { chart } = this.state;
 
-    console.log(nextProps, 'blabla');
     if (nextProps.chartData !== this.props.chartData) {
       // Update Dataset
       chart.config.data.datasets[0].data = nextProps.chartData.data;
